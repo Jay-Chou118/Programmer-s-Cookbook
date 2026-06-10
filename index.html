@@ -34,6 +34,10 @@
                         java: '#f89820',
                         cpp: '#00599C',
                         js: '#f7df1e',
+                        go: '#00ADD8',
+                        rust: '#CE422B',
+                        kotlin: '#7F52FF',
+                        community: '#EC4899',
                         dark: '#0a0a0f',
                         'dark-card': '#12121a',
                     },
@@ -61,313 +65,9 @@
         }
     </script>
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Noto Sans SC', sans-serif;
-            background: #0a0a0f;
-            color: #e0e0e0;
-            overflow-x: hidden;
-            cursor: none;
-        }
-
-        /* 自定义光标 */
-        .custom-cursor {
-            width: 20px;
-            height: 20px;
-            border: 2px solid rgba(255, 255, 255, 0.8);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-            transition: all 0.1s ease;
-            mix-blend-mode: difference;
-        }
-
-        .custom-cursor-dot {
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 255, 255, 0.9);
-            border-radius: 50%;
-            position: fixed;
-            pointer-events: none;
-            z-index: 9999;
-        }
-
-        .custom-cursor.hover {
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
-        }
-
-        /* 背景粒子 */
-        #particles-js {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.6;
-        }
-
-        /* 代码雨背景 */
-        #code-rain {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            opacity: 0.15;
-        }
-
-        /* 玻璃态卡片 */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 24px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .glass-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 255, 255, 0.05),
-                transparent
-            );
-            transition: left 0.6s ease;
-        }
-
-        .glass-card:hover::before {
-            left: 100%;
-        }
-
-        .glass-card:hover {
-            transform: translateY(-12px) scale(1.02);
-            border-color: rgba(255, 255, 255, 0.2);
-            box-shadow:
-                0 30px 60px rgba(0, 0, 0, 0.5),
-                0 0 40px rgba(255, 255, 255, 0.05);
-        }
-
-        /* 标签页 */
-        .tab-btn {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .tab-btn::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 50%;
-            width: 0;
-            height: 3px;
-            background: currentColor;
-            transition: all 0.3s ease;
-            transform: translateX(-50%);
-        }
-
-        .tab-btn.active::after {
-            width: 80%;
-        }
-
-        .tab-btn:hover::after {
-            width: 80%;
-        }
-
-        /* 关键字高亮 */
-        .keyword-glow {
-            text-shadow:
-                0 0 10px currentColor,
-                0 0 20px currentColor,
-                0 0 40px currentColor;
-            animation: glow 2s ease-in-out infinite alternate;
-        }
-
-        /* 步骤编号 */
-        .step-badge {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            min-width: 32px;
-            height: 32px;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            font-family: 'Fira Code', monospace;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        }
-
-        /* 原料标签 */
-        .ingredient-chip {
-            display: inline-flex;
-            align-items: center;
-            padding: 6px 14px;
-            border-radius: 20px;
-            font-size: 13px;
-            font-weight: 500;
-            transition: all 0.3s ease;
-            cursor: default;
-        }
-
-        .ingredient-chip:hover {
-            transform: scale(1.1) rotate(2deg);
-        }
-
-        /* 复制按钮 */
-        .copy-btn {
-            position: relative;
-            overflow: hidden;
-            transition: all 0.3s ease;
-        }
-
-        .copy-btn::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.6s, height 0.6s;
-        }
-
-        .copy-btn:active::before {
-            width: 300px;
-            height: 300px;
-        }
-
-        /* 搜索框 */
-        .search-container {
-            position: relative;
-        }
-
-        .search-input {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            padding: 12px 20px 12px 50px;
-            color: #fff;
-            font-size: 15px;
-            transition: all 0.3s ease;
-            width: 100%;
-            max-width: 500px;
-        }
-
-        .search-input:focus {
-            outline: none;
-            border-color: rgba(255, 255, 255, 0.3);
-            background: rgba(255, 255, 255, 0.08);
-            box-shadow: 0 0 30px rgba(255, 255, 255, 0.1);
-        }
-
-        .search-icon {
-            position: absolute;
-            left: 18px;
-            top: 50%;
-            transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.5);
-            font-size: 20px;
-        }
-
-        /* 主题切换 */
-        .theme-toggle {
-            width: 60px;
-            height: 32px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 16px;
-            position: relative;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle::after {
-            content: '';
-            position: absolute;
-            width: 24px;
-            height: 24px;
-            background: #fff;
-            border-radius: 50%;
-            top: 4px;
-            left: 4px;
-            transition: all 0.3s ease;
-        }
-
-        .theme-toggle.light::after {
-            left: 32px;
-            background: #fbbf24;
-        }
-
-        /* 滚动条 */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-
-        ::-webkit-scrollbar-track {
-            background: rgba(255, 255, 255, 0.05);
-        }
-
-        ::-webkit-scrollbar-thumb {
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 4px;
-        }
-
-        ::-webkit-scrollbar-thumb:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* 加载动画 */
-        .loader {
-            width: 48px;
-            height: 48px;
-            border: 3px solid rgba(255,255,255,0.1);
-            border-radius: 50%;
-            border-top-color: #fff;
-            animation: spin 1s ease-in-out infinite;
-        }
-
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-
-        /* 响应式 */
-        @media (max-width: 768px) {
-            .custom-cursor, .custom-cursor-dot {
-                display: none;
-            }
-
-            .recipe-grid {
-                grid-template-columns: 1fr !important;
-            }
-
-            .tab-text {
-                font-size: 13px !important;
-                padding: 8px 16px !important;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/detail.css">
+    <link rel="stylesheet" href="css/welcome.css">
 </head>
 <body>
     <!-- 自定义光标 -->
@@ -381,27 +81,89 @@
     <canvas id="code-rain"></canvas>
 
     <!-- 页面头部 -->
-    <header class="relative z-10 py-12 px-6">
+    <header class="relative z-10 py-6 px-6">
         <div class="max-w-7xl mx-auto text-center">
-            <div class="mb-6">
-                <span class="inline-block px-4 py-2 bg-gradient-to-r from-purple-500/20 to-pink-500/20 rounded-full text-sm font-code text-purple-300 mb-4 animate-float">
-                    🍳 v1.0 · 用代码调味生活
-                </span>
-            </div>
-
-            <h1 class="text-5xl md:text-7xl font-bold mb-4 font-code">
+            <h1 class="text-4xl md:text-6xl font-bold mb-2 font-code">
                 <span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
                     &lt;Programmer's Cookbook/&gt;
                 </span>
             </h1>
 
-            <p class="text-xl md:text-2xl text-gray-400 mb-8 max-w-2xl mx-auto">
-                当编程语言的关键字遇上人间烟火气<br>
-                <span class="text-sm text-gray-500">每一行代码，都值得被用心烹饪</span>
+            <p class="text-base md:text-lg text-gray-400 mb-4 max-w-2xl mx-auto">
+                当编程语言的关键字遇上人间烟火气
+                <span class="text-xs text-gray-500 ml-2">每一行代码，都值得被用心烹饪</span>
             </p>
 
+            <!-- 语言分类标签（放在 header 内，确保首屏可见） -->
+            <div class="flex flex-wrap justify-center gap-3 mb-4">
+                <button onclick="switchTab('python')"
+                    class="tab-btn active tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="python" data-active-border="border-blue-500" data-active-text="text-blue-300" data-active-bg="bg-blue-500/15" data-active-shadow="shadow-blue-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-braces-line"></i>
+                        Python
+                    </span>
+                </button>
+                <button onclick="switchTab('java')"
+                    class="tab-btn tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="java" data-active-border="border-orange-500" data-active-text="text-orange-300" data-active-bg="bg-orange-500/15" data-active-shadow="shadow-orange-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-cup-line"></i>
+                        Java
+                    </span>
+                </button>
+                <button onclick="switchTab('cpp')"
+                    class="tab-btn tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="cpp" data-active-border="border-cyan-500" data-active-text="text-cyan-300" data-active-bg="bg-cyan-500/15" data-active-shadow="shadow-cyan-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-flashlight-line"></i>
+                        C++
+                    </span>
+                </button>
+                <button onclick="switchTab('javascript')"
+                    class="tab-btn tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="javascript" data-active-border="border-yellow-500" data-active-text="text-yellow-300" data-active-bg="bg-yellow-500/15" data-active-shadow="shadow-yellow-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-javascript-line"></i>
+                        JavaScript
+                    </span>
+                </button>
+                <button onclick="switchTab('go')"
+                    class="tab-btn tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="go" data-active-border="border-sky-500" data-active-text="text-sky-300" data-active-bg="bg-sky-500/15" data-active-shadow="shadow-sky-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-speed-line"></i>
+                        Go
+                    </span>
+                </button>
+                <button onclick="switchTab('rust')"
+                    class="tab-btn tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="rust" data-active-border="border-red-500" data-active-text="text-red-300" data-active-bg="bg-red-500/15" data-active-shadow="shadow-red-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-shield-cross-line"></i>
+                        Rust
+                    </span>
+                </button>
+                <button onclick="switchTab('kotlin')"
+                    class="tab-btn tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="kotlin" data-active-border="border-violet-500" data-active-text="text-violet-300" data-active-bg="bg-violet-500/15" data-active-shadow="shadow-violet-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-leaf-line"></i>
+                        Kotlin
+                    </span>
+                </button>
+                <button onclick="switchTab('community')"
+                    class="tab-btn tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="community" data-active-border="border-pink-500" data-active-text="text-pink-300" data-active-bg="bg-pink-500/15" data-active-shadow="shadow-pink-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-group-line"></i>
+                        社区
+                    </span>
+                </button>
+            </div>
+
             <!-- 搜索框 -->
-            <div class="search-container max-w-md mx-auto mb-8">
+            <div class="search-container max-w-md mx-auto mb-3">
                 <i class="ri-search-line search-icon"></i>
                 <input
                     type="text"
@@ -411,61 +173,18 @@
                 >
             </div>
 
-            <!-- 主题切换 -->
-            <div class="flex justify-center items-center gap-4">
-                <span class="text-sm text-gray-400">浅色模式</span>
-                <div class="theme-toggle" id="themeToggle"></div>
-                <span class="text-sm text-gray-400">深色模式</span>
+            <!-- 主题切换 + 统计 -->
+            <div class="flex justify-center items-center gap-6">
+                <div class="flex items-center gap-3">
+                    <span class="text-xs text-gray-500">浅色</span>
+                    <div class="theme-toggle" id="themeToggle"></div>
+                    <span class="text-xs text-gray-500">深色</span>
+                </div>
+                <span class="text-xs text-gray-600">|</span>
+                <span class="text-xs text-gray-500"><span id="recipeCount">共 12 道菜谱</span> · <span id="currentLang">当前：Python 专区</span></span>
             </div>
         </div>
     </header>
-
-    <!-- 语言分类标签 -->
-    <nav class="relative z-10 px-6 mb-12">
-        <div class="max-w-5xl mx-auto">
-            <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="switchTab('python')"
-                    class="tab-btn active tab-text px-8 py-4 rounded-2xl font-medium font-code text-sm md:text-base border border-gray-700 text-gray-300 hover:border-python hover:text-python transition-all bg-gray-900/50"
-                    data-lang="python">
-                    <span class="flex items-center gap-2">
-                        <i class="ri-braces-line text-python"></i>
-                        Python
-                    </span>
-                </button>
-                <button onclick="switchTab('java')"
-                    class="tab-btn tab-text px-8 py-4 rounded-2xl font-medium font-code text-sm md:text-base border border-gray-700 text-gray-300 hover:border-java hover:text-java transition-all bg-gray-900/50"
-                    data-lang="java">
-                    <span class="flex items-center gap-2">
-                        <i class="ri-cup-line text-java"></i>
-                        Java
-                    </span>
-                </button>
-                <button onclick="switchTab('cpp')"
-                    class="tab-btn tab-text px-8 py-4 rounded-2xl font-medium font-code text-sm md:text-base border border-gray-700 text-gray-300 hover:border-cpp hover:text-cpp transition-all bg-gray-900/50"
-                    data-lang="cpp">
-                    <span class="flex items-center gap-2">
-                        <i class="ri-flashlight-line text-cpp"></i>
-                        C++
-                    </span>
-                </button>
-                <button onclick="switchTab('javascript')"
-                    class="tab-btn tab-text px-8 py-4 rounded-2xl font-medium font-code text-sm md:text-base border border-gray-700 text-gray-300 hover:border-js hover:text-js transition-all bg-gray-900/50"
-                    data-lang="javascript">
-                    <span class="flex items-center gap-2">
-                        <i class="ri-javascript-line text-js"></i>
-                        JavaScript
-                    </span>
-                </button>
-            </div>
-
-            <!-- 统计信息 -->
-            <div class="text-center mt-6 text-sm text-gray-500">
-                <span id="recipeCount">共 12 道菜谱</span>
-                <span class="mx-2">·</span>
-                <span id="currentLang">当前：Python 专区</span>
-            </div>
-        </div>
-    </nav>
 
     <!-- 菜谱内容区 -->
     <main class="relative z-10 px-6 pb-20">
@@ -487,6 +206,26 @@
 
             <!-- JavaScript 专区 -->
             <section id="section-javascript" class="hidden">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+
+            <!-- Go 专区 -->
+            <section id="section-go" class="hidden">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+
+            <!-- Rust 专区 -->
+            <section id="section-rust" class="hidden">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+
+            <!-- Kotlin 专区 -->
+            <section id="section-kotlin" class="hidden">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+
+            <!-- 社区专区 -->
+            <section id="section-community" class="hidden">
                 <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             </section>
 
@@ -535,851 +274,173 @@
         <span id="toastMessage"></span>
     </div>
 
-    <script>
-        // ==================== 菜谱数据 ====================
-        const recipes = {
-            python: [
-                {
-                    keyword: "import",
-                    definition: "Python 关键字，用于导入模块或包，将外部功能引入当前命名空间。",
-                    creativity: "做菜的第一步往往是"导入"食材——从冰箱/菜市场把原料请进厨房，就像 import 把模块请进代码。没有 import，巧妇难为无米之炊；没有食材，大厨也只能对着空锅发呆。",
-                    dishName: "番茄炒蛋",
-                    ingredients: {
-                        main: ["鸡蛋 4个", "番茄 2个（约300g）"],
-                        auxiliary: ["小葱 2根", "大蒜 2瓣"],
-                        seasoning: ["食用油 3汤匙", "盐 1茶匙", "白糖 1茶匙", "生抽 1茶匙", "料酒 几滴"]
-                    },
-                    steps: [
-                        "番茄洗净去蒂，切成小块（约2cm见方）；鸡蛋打入碗中，加少许盐（约1/4茶匙）和几滴料酒，用筷子充分搅打至蛋液起泡。",
-                        "小葱切葱花，大蒜切末备用。",
-                        "热锅倒入2汤匙食用油，油热后（微微冒烟）倒入蛋液，待底部凝固后用锅铲快速划散，炒至金黄蓬松后盛出备用。",
-                        "锅中再加1汤匙油，放入蒜末爆香，倒入番茄块中火翻炒，用锅铲轻压番茄使其出汁，炒至番茄软烂呈酱状（约2分钟）。",
-                        "将炒好的鸡蛋倒回锅中，与番茄翻炒均匀，加入盐、白糖、生抽调味，继续翻炒1分钟让味道融合。",
-                        "关火装盘，撒上葱花点缀，趁热享用。"
-                    ],
-                    difficulty: "⭐ 简单",
-                    time: "10分钟",
-                    calories: "280kcal"
-                },
-                {
-                    keyword: "def",
-                    definition: "Python 关键字，用于定义函数（define function），将一段可复用的代码封装成命名块。",
-                    creativity: "def 是 Python 中定义函数的关键字——把一段逻辑封装起来，随用随调。这道"定义红烧肉"也一样：把五花肉、调料和火候封装进一口锅，定义出人间最治愈的味道。函数可以复用，这道菜可以再来一碗饭。",
-                    dishName: "红烧肉",
-                    ingredients: {
-                        main: ["带皮五花肉 500g"],
-                        auxiliary: ["生姜 4片", "大葱 1段", "八角 2个", "香叶 2片", "桂皮 1小段"],
-                        seasoning: ["冰糖 30g", "料酒 2汤匙", "生抽 2汤匙", "老抽 1汤匙", "盐 适量", "热水 适量"]
-                    },
-                    steps: [
-                        "五花肉洗净切成3cm见方的块，冷水下锅，加入1汤匙料酒和2片姜，大火煮开后撇去浮沫，捞出用温水冲洗干净，沥干备用。",
-                        "锅中不放油，直接放入五花肉块，中小火煸炒至表面微黄、油脂析出，盛出肉块，锅中留少许底油。",
-                        "放入冰糖，小火炒至冰糖融化呈琥珀色（糖色），迅速倒入五花肉翻炒，使每块肉均匀裹上糖色。",
-                        "加入葱段、姜片、八角、香叶、桂皮，翻炒出香味后，加入生抽、老抽和剩余料酒，翻炒均匀。",
-                        "倒入足量热水（没过肉块约2cm），大火烧开后转小火，盖上锅盖慢炖40分钟。",
-                        "开盖，根据口味加适量盐，转中火收汁，不停翻炒至汤汁浓稠、肉块红亮，即可出锅。"
-                    ],
-                    difficulty: "⭐⭐ 中等",
-                    time: "60分钟",
-                    calories: "520kcal"
-                },
-                {
-                    keyword: "for",
-                    definition: "Python 关键字，用于创建 for 循环，对序列（列表、元组、字符串）或可迭代对象进行遍历。",
-                    creativity: "for 循环一遍遍遍历序列中的每个元素——就像包饺子时，一张皮、一勺馅、一捏一挤，循环往复，直到所有饺子皮用完。每一次迭代，都是同样的动作，却包出了满满一盘幸福。",
-                    dishName: "韭菜鸡蛋饺子",
-                    ingredients: {
-                        main: ["饺子皮 500g", "韭菜 300g", "鸡蛋 4个"],
-                        auxiliary: ["虾皮 30g", "生姜 1小块"],
-                        seasoning: ["食用油 3汤匙", "盐 1.5茶匙", "香油 1汤匙", "白胡椒粉 少许"]
-                    },
-                    steps: [
-                        "鸡蛋打散，锅中热2汤匙油，倒入蛋液炒成细碎的金黄蛋花，盛出放凉。",
-                        "韭菜摘洗干净，充分沥干水分后切碎；生姜切末；虾皮洗净沥干。",
-                        "将韭菜碎、鸡蛋碎、虾皮、姜末混合，加入盐、香油、白胡椒粉，再淋入1汤匙熟油拌匀（锁住韭菜水分），饺子馅即成。",
-                        "取一张饺子皮，放入适量馅料（约1汤匙），对折捏紧中间，再从两端向中间捏出褶皱，封口捏紧。",
-                        "重复步骤4，直到所有饺子皮和馅料用完（for循环完成！）。",
-                        "大锅烧水，水开后下入饺子，用勺背轻推防粘，水再次沸腾后加半碗冷水，重复3次，饺子全部浮起即熟。",
-                        "捞出装盘，配蒜泥醋汁或辣椒油享用。"
-                    ],
-                    difficulty: "⭐⭐ 中等",
-                    time: "45分钟",
-                    calories: "350kcal/6个"
-                },
-                {
-                    keyword: "if/else",
-                    definition: "Python 条件语句关键字，根据条件表达式的真假执行不同的代码分支。",
-                    creativity: "if/else 是编程中最基础的条件判断——如果条件成立，执行A；否则执行B。做菜也一样：如果火大了就关小，如果汤少了就加水。人生就是由无数个 if/else 组成的，而最好的选择永远是——再吃一口。",
-                    dishName: "酸辣土豆丝",
-                    ingredients: {
-                        main: ["土豆 2个（约400g）"],
-                        auxiliary: ["干辣椒 8个", "花椒 1茶匙", "大蒜 3瓣", "小葱 2根"],
-                        seasoning: ["食用油 3汤匙", "陈醋 3汤匙", "盐 1茶匙", "白糖 1茶匙", "鸡精 少许"]
-                    },
-                    steps: [
-                        "土豆去皮切细丝（或用擦丝器），放入清水中浸泡5分钟去除淀粉，捞出沥干（这一步很重要，防止氧化变黑且更脆）。",
-                        "干辣椒剪段去籽，大蒜切片，小葱切段。",
-                        "热锅倒入足量油，放入花椒小火炸出香味后捞出花椒粒（不喜欢吃到花椒的话）。",
-                        "放入干辣椒段和蒜片爆香，转大火倒入土豆丝快速翻炒。",
-                        "沿锅边淋入陈醋（高温激发醋香），继续大火翻炒1-2分钟至土豆丝断生但仍保持脆感。",
-                        "加入盐、白糖、鸡精调味，撒入葱段翻炒均匀，立即出锅（动作要快，保持土豆丝的脆爽）。"
-                    ],
-                    difficulty: "⭐ 简单",
-                    time: "15分钟",
-                    calories: "180kcal"
-                }
-            ],
-            java: [
-                {
-                    keyword: "class",
-                    definition: "Java 关键字，用于定义类——面向对象编程的基本单元，封装属性（字段）和行为（方法）。",
-                    creativity: "class 是 Java 中定义类的关键字——一个类就是一个模板，从中可以实例化出无数对象。麻婆豆腐就是那道"class"：豆腐、肉末、豆瓣酱是属性，炒、烧、勾芡是方法，每一盘麻婆豆腐都是这个类的实例，麻、辣、鲜、香，属性一致，味道统一。",
-                    dishName: "麻婆豆腐",
-                    ingredients: {
-                        main: ["嫩豆腐 400g", "猪肉末 100g"],
-                        auxiliary: ["蒜苗 2根", "生姜 3片", "大蒜 3瓣", "干辣椒 5个"],
-                        seasoning: ["郫县豆瓣酱 2汤匙", "豆豉 1茶匙", "花椒粉 1茶匙", "生抽 1汤匙", "料酒 1汤匙", "水淀粉 适量", "食用油 3汤匙", "盐 少许"]
-                    },
-                    steps: [
-                        "豆腐切成2cm见方的小块，放入加了少许盐的沸水中焯烫1分钟（去豆腥且不易碎），捞出沥干。",
-                        "蒜苗切段，姜蒜切末，干辣椒剪成段，豆豉略剁碎。",
-                        "热锅凉油，放入肉末中火煸炒至变色、吐油，加入豆瓣酱炒出红油，再加入姜蒜末、豆豉、干辣椒段炒香。",
-                        "烹入料酒和生抽，加入约300ml热水，轻轻放入豆腐块，大火烧开后转中小火煮5分钟入味。",
-                        "分2-3次淋入水淀粉勾芡，轻轻推动锅铲使芡汁均匀包裹豆腐，汤汁收到浓稠状态。",
-                        "撒入蒜苗段和一半花椒粉，轻推两下关火装盘，表面再撒剩余花椒粉即可。"
-                    ],
-                    difficulty: "⭐⭐ 中等",
-                    time: "20分钟",
-                    calories: "320kcal"
-                },
-                {
-                    keyword: "public static void main",
-                    definition: "Java 程序的入口方法——public（公共访问）、static（静态）、void（无返回值）、main（主方法），JVM 从这里开始执行程序。",
-                    creativity: "main 方法是 Java 程序的起点——一切逻辑从这里开始。宫保鸡丁就是那道"main"：鸡丁、花生、干辣椒是参数，爆炒是核心逻辑，一盘宫保鸡丁端上桌，程序执行完毕，返回值是——"真香"。",
-                    dishName: "宫保鸡丁",
-                    ingredients: {
-                        main: ["鸡胸肉 300g", "油炸花生米 80g"],
-                        auxiliary: ["干辣椒 10个", "花椒 1茶匙", "大葱 1根", "生姜 3片", "大蒜 3瓣"],
-                        seasoning: ["生抽 2汤匙", "陈醋 2汤匙", "白糖 2茶匙", "料酒 1汤匙", "淀粉 1茶匙", "盐 少许", "食用油 适量"]
-                    },
-                    steps: [
-                        "鸡胸肉切成1.5cm见方的丁，加入1汤匙生抽、1茶匙料酒、少许盐和淀粉，抓匀腌制10分钟。",
-                        "大葱切段（约1cm），干辣椒剪段去籽，姜蒜切片。",
-                        "调宫保汁：碗中放入1汤匙生抽、2汤匙陈醋、2茶匙白糖、少许盐，搅拌均匀备用。",
-                        "热锅倒入稍多油，油温五成热时放入鸡丁滑炒至变色，盛出沥油。",
-                        "锅中留底油，放入花椒小火炸出香味，加入干辣椒段炒至棕红色，放入葱姜蒜爆香。",
-                        "倒入鸡丁翻炒均匀，淋入宫保汁大火快速翻炒，使酱汁均匀包裹鸡丁。",
-                        "关火前加入花生米，快速翻炒两下出锅（花生米最后放才能保持酥脆）。"
-                    ],
-                    difficulty: "⭐⭐ 中等",
-                    time: "25分钟",
-                    calories: "380kcal"
-                },
-                {
-                    keyword: "new",
-                    definition: "Java 关键字，用于创建类的新实例（对象），在堆内存中分配空间并调用构造方法初始化。",
-                    creativity: "new 关键字用来创建新对象——new ArrayList()、new HashMap()，每一次 new 都是一次新生。春卷就像 new 出来的对象：一张春卷皮 new 一个，包入馅料，封口，下锅油炸，new 出一盘金黄酥脆。new 出来的春卷，个个都是独立实例，但味道一模一样。",
-                    dishName: "炸春卷",
-                    ingredients: {
-                        main: ["春卷皮 20张", "猪肉末 150g", "卷心菜 200g", "胡萝卜 1根", "粉丝 50g"],
-                        auxiliary: ["生姜 2片", "小葱 2根"],
-                        seasoning: ["生抽 2汤匙", "料酒 1汤匙", "盐 1茶匙", "白胡椒粉 少许", "香油 1茶匙", "食用油 适量（炸制用）", "面粉 2汤匙（封口用）"]
-                    },
-                    steps: [
-                        "粉丝用温水泡软后切段；卷心菜、胡萝卜切细丝；姜切末，葱切花。",
-                        "热锅放少许油，放入肉末煸炒至变色，加入姜末炒香，烹入料酒和生抽。",
-                        "加入卷心菜丝和胡萝卜丝，中火翻炒至蔬菜变软，加入粉丝段，调入盐、白胡椒粉、香油，翻炒均匀后盛出放凉（馅料必须凉透才好包）。",
-                        "取一张春卷皮，放入适量馅料（约2汤匙）成长条状，将底部向上折，两侧向内折，然后向前卷起，在末端抹少许面粉糊封口。",
-                        "重复步骤4，包好所有春卷。",
-                        "锅中倒入足量油，烧至六成热（筷子放入冒小泡），放入春卷中小火炸至表面金黄酥脆（约3-4分钟），捞出沥油即可。"
-                    ],
-                    difficulty: "⭐⭐⭐ 较难",
-                    time: "50分钟",
-                    calories: "180kcal/个"
-                },
-                {
-                    keyword: "interface",
-                    definition: "Java 关键字，用于定义接口——一种完全抽象的类，规定实现类必须具有的方法签名。",
-                    creativity: "interface 定义了一组规范——实现它的类必须遵守契约。月饼就是那道"interface"：无论五仁、莲蓉还是豆沙，都必须符合"皮包馅、烤制、圆形"的接口规范。每个厂商实现自己的月饼类，但都遵循同一个中秋的接口。",
-                    dishName: "广式月饼",
-                    ingredients: {
-                        main: ["中筋面粉 200g", "转化糖浆 140g", "花生油 50g", "枧水 4g", "莲蓉馅 500g", "咸蛋黄 10个"],
-                        auxiliary: ["鸡蛋 1个（刷表面）"],
-                        seasoning: ["清水 少许"]
-                    },
-                    steps: [
-                        "转化糖浆、花生油、枧水混合，搅拌至乳化状态（约2分钟）。",
-                        "筛入面粉，用刮刀切拌成团，不要过度揉搓以免起筋。包上保鲜膜松弛2小时。",
-                        "咸蛋黄喷少许白酒，180°C烤5分钟去腥；莲蓉分成50g/个，包入蛋黄搓圆。",
-                        "饼皮分成20g/个，压扁后包入馅料，用虎口慢慢向上收口，搓圆。",
-                        "月饼模撒少许面粉防粘，放入面团压出花纹，脱模放在烤盘上。",
-                        "表面喷水雾，200°C烤5分钟定型；取出刷薄薄一层蛋液，180°C再烤10-12分钟至上色。",
-                        "出炉放凉后密封回油2-3天，饼皮变软即可食用。"
-                    ],
-                    difficulty: "⭐⭐⭐ 较难",
-                    time: "3小时",
-                    calories: "420kcal/个"
-                }
-            ],
-            cpp: [
-                {
-                    keyword: "template",
-                    definition: "C++ 关键字，用于定义模板——允许函数或类使用泛型，编译时为具体类型生成特化版本。",
-                    creativity: "template 是 C++ 泛型编程的核心——一个模板，适配任意类型。饺子皮就是那张 template<T>：今天包韭菜馅是 template<韭菜>，明天包白菜馅是 template<白菜>，同一张皮，适配万般馅料，编译（包）出来都是好饺子。",
-                    dishName: "白菜猪肉水饺",
-                    ingredients: {
-                        main: ["饺子皮 500g", "猪肉末 300g", "大白菜 400g"],
-                        auxiliary: ["生姜 1小块", "大葱 1根", "鸡蛋 1个"],
-                        seasoning: ["生抽 3汤匙", "料酒 2汤匙", "盐 1.5茶匙", "香油 2汤匙", "白胡椒粉 1茶匙", "食用油 2汤匙"]
-                    },
-                    steps: [
-                        "白菜切碎，加1茶匙盐拌匀腌10分钟，用纱布包好挤干水分（挤出的白菜汁留着拌馅）。",
-                        "猪肉末放入大碗中，分3次加入白菜汁，每次都用筷子朝一个方向搅拌至吸收，使肉馅多汁。",
-                        "加入挤干的白菜碎、姜末、葱花、鸡蛋、生抽、料酒、盐、白胡椒粉、香油，朝同一方向搅拌均匀。最后淋入2汤匙熟油拌匀锁水。",
-                        "取饺子皮，放馅、对折、捏紧，包成饺子（template<白菜猪肉> 实例化中……）。",
-                        "大锅烧水，水开后下饺子，煮沸后加冷水，重复3次，饺子浮起即熟。",
-                        "捞出装盘，配醋、蒜泥、辣椒油蘸食。"
-                    ],
-                    difficulty: "⭐⭐ 中等",
-                    time: "50分钟",
-                    calories: "320kcal/8个"
-                },
-                {
-                    keyword: "while",
-                    definition: "C++ 关键字，创建 while 循环——当条件为 true 时重复执行循环体，直到条件变为 false。",
-                    creativity: "while 循环在条件为真时不断执行——while(锅里有肉) { 翻炒(); }。炖肉就是最典型的 while 循环：while(肉不够烂) { 继续炖(); 加热水(); }，循环的终止条件是"筷子能轻松插入"。while 炖出来的肉，入口即化。",
-                    dishName: "土豆炖牛肉",
-                    ingredients: {
-                        main: ["牛腩 500g", "土豆 3个（约400g）"],
-                        auxiliary: ["生姜 4片", "大葱 1段", "八角 2个", "桂皮 1小段", "香叶 2片", "干辣椒 3个"],
-                        seasoning: ["冰糖 15g", "料酒 2汤匙", "生抽 3汤匙", "老抽 1汤匙", "盐 适量", "热水 适量"]
-                    },
-                    steps: [
-                        "牛腩切成3cm块，冷水下锅，加1汤匙料酒和2片姜，煮开撇沫后捞出，用温水洗净沥干。",
-                        "土豆去皮切滚刀块，用清水泡着防氧化。",
-                        "锅中放少许油，放入冰糖小火炒成琥珀色糖色，倒入牛肉块翻炒上色。",
-                        "加入葱姜、八角、桂皮、香叶、干辣椒炒香，烹入剩余料酒、生抽、老抽，翻炒均匀。",
-                        "倒入足量热水（没过牛肉3cm），大火烧开转小火，盖盖炖40分钟（while 循环第一阶段）。",
-                        "加入土豆块，继续炖20分钟（while 循环第二阶段），至土豆软糯、牛肉酥烂。",
-                        "根据口味加盐调味，开大火略收汁（留些汤汁拌饭更香），即可出锅。"
-                    ],
-                    difficulty: "⭐⭐ 中等",
-                    time: "80分钟",
-                    calories: "450kcal"
-                },
-                {
-                    keyword: "return",
-                    definition: "C++ 关键字，从函数返回一个值给调用者，同时结束当前函数的执行。",
-                    creativity: "return 是函数的终点——经过一系列计算和处理，最终 return 一个结果。一道菜的 return 就是装盘上桌的那一刻：return 一盘色香味俱全的佳肴，返回值类型是"满足感"。",
-                    dishName: "回锅肉",
-                    ingredients: {
-                        main: ["带皮五花肉 400g"],
-                        auxiliary: ["青蒜苗 4根", "青椒 1个", "生姜 3片", "大蒜 3瓣"],
-                        seasoning: ["郫县豆瓣酱 2汤匙", "豆豉 1茶匙", "甜面酱 1茶匙", "生抽 1汤匙", "料酒 1汤匙", "白糖 1茶匙", "食用油 少许"]
-                    },
-                    steps: [
-                        "五花肉整块冷水下锅，加入2片姜、1汤匙料酒，大火煮开后转中火煮20分钟，至筷子能插入（约八成熟），捞出放凉后切成约3mm厚的薄片。",
-                        "青蒜苗切段（蒜白和蒜叶分开），青椒切块，蒜切片，豆豉略剁。",
-                        "锅中放少许油（肉会出油，油要少），放入肉片中火煸炒至肉片微卷、透明出油，盛出肉片，锅中留底油。",
-                        "放入豆瓣酱小火炒出红油，加入豆豉、蒜片、甜面酱炒香。",
-                        "倒入肉片翻炒均匀，加入生抽、白糖调味。",
-                        "先放入蒜白和青椒翻炒30秒，再放入蒜叶翻炒至断生，即可出锅装盘。"
-                    ],
-                    difficulty: "⭐⭐ 中等",
-                    time: "40分钟",
-                    calories: "480kcal"
-                },
-                {
-                    keyword: "namespace",
-                    definition: "C++ 关键字，用于定义命名空间——避免全局命名冲突，将相关的标识符组织在一起。",
-                    creativity: "namespace 解决命名冲突——std::cout 和 mylib::cout 可以共存。火锅就是那个"namespace"：清汤锅 namespace 清汤，红油锅 namespace 红油，同样的食材放入不同的锅底，煮出不同的风味。各在一个 namespace 里，互不干扰，各得其乐。",
-                    dishName: "鸳鸯火锅",
-                    ingredients: {
-                        main: ["火锅底料 1包（红油）", "鸡骨架 1个（清汤）", "各种涮菜 适量"],
-                        auxiliary: ["生姜 5片", "大葱 2段", "枸杞 20粒", "红枣 5个"],
-                        seasoning: ["盐 适量", "鸡精 适量", "蒜泥 适量", "香油 适量", "香菜 适量"]
-                    },
-                    steps: [
-                        "红油锅底：锅中放少许油，放入火锅底料炒化，加入适量热水，放入几片姜和葱段，煮开即成。",
-                        "清汤锅底：鸡骨架焯水后放入锅中，加足量水、姜片、葱段、枸杞、红枣，大火烧开转小火熬1小时，加盐和鸡精调味。",
-                        "准备蘸料：蒜泥 + 香油 + 香菜 + 少许盐，或根据个人口味调制。",
-                        "准备涮菜：各种蔬菜、肉类、豆制品洗净切好装盘。",
-                        "将鸳鸯锅架在炉子上，一边倒入红油汤底，一边倒入清汤汤底。",
-                        "汤底烧开后，先涮肉类，再涮蔬菜，边煮边吃，享受两种风味。"
-                    ],
-                    difficulty: "⭐⭐ 中等",
-                    time: "90分钟",
-                    calories: "视食材而定"
-                }
-            ],
-            javascript: [
-                {
-                    keyword: "function",
-                    definition: "JavaScript 关键字，用于声明函数——将一段可执行的代码封装为命名块，可接收参数并返回值。",
-                    creativity: "function 是 JavaScript 中声明函数的基本方式——function makeSandwich(ingredients) { ... }。三明治就是最典型的 function：传入面包、火腿、生菜、番茄，经过"组装"逻辑，return 一个美味的三明治。参数不同，口味不同，但函数签名不变。",
-                    dishName: "经典火腿三明治",
-                    ingredients: {
-                        main: ["吐司面包 4片", "火腿片 6片", "生菜叶 4片", "番茄 1个"],
-                        auxiliary: ["鸡蛋 2个", "黄瓜 半根"],
-                        seasoning: ["沙拉酱 3汤匙", "黄油 20g", "盐 少许", "黑胡椒粉 少许"]
-                    },
-                    steps: [
-                        "番茄切薄片，黄瓜切薄片，生菜洗净沥干。",
-                        "平底锅小火融化少许黄油，打入鸡蛋煎成太阳蛋（也可炒散成炒蛋），撒少许盐和黑胡椒。",
-                        "吐司放入多士炉或平底锅（不放油）烤至表面微黄酥脆。",
-                        "取一片吐司，均匀涂抹沙拉酱，依次铺上生菜叶、2片火腿、番茄片、煎蛋、黄瓜片。",
-                        "盖上第二片吐司（涂酱面朝下），轻轻按压。",
-                        "用刀沿对角线切开，装盘享用（function makeSandwich() 执行完毕，return "美味"）。"
-                    ],
-                    difficulty: "⭐ 简单",
-                    time: "10分钟",
-                    calories: "350kcal"
-                },
-                {
-                    keyword: "const",
-                    definition: "JavaScript 关键字，声明一个块级作用域的常量——绑定后不可重新赋值（但对象/数组的内容可变）。",
-                    creativity: "const 声明一个不可重新赋值的常量——const 配方 = "扬州炒饭"。扬州炒饭就像 const：一旦定义了它的配方（米饭、鸡蛋、火腿、虾仁、青豆），这个常量就不可更改。你可以往里面加料（对象属性可变），但你不能说"扬州炒饭"其实是粥（常量不可重新绑定）。",
-                    dishName: "扬州炒饭",
-                    ingredients: {
-                        main: ["隔夜米饭 300g", "鸡蛋 3个", "虾仁 80g", "火腿 80g"],
-                        auxiliary: ["青豆 50g", "胡萝卜 半根", "小葱 3根"],
-                        seasoning: ["食用油 3汤匙", "盐 1.5茶匙", "白胡椒粉 少许", "生抽 1茶匙"]
-                    },
-                    steps: [
-                        "虾仁用少许盐和料酒腌制5分钟；火腿切小丁；胡萝卜切小丁；葱切葱花。",
-                        "青豆和胡萝卜丁放入沸水中焯烫1分钟，捞出沥干。",
-                        "鸡蛋打散，热锅热油炒成细碎蛋花，盛出备用。",
-                        "锅中再加少许油，放入虾仁滑炒至变色盛出。",
-                        "锅中倒入米饭，用锅铲压散，中火翻炒至米粒分明、粒粒跳动。",
-                        "加入火腿丁、青豆、胡萝卜丁、鸡蛋碎、虾仁，翻炒均匀。",
-                        "加入盐、白胡椒粉、生抽，翻炒入味，最后撒入葱花翻炒两下出锅。"
-                    ],
-                    difficulty: "⭐ 简单",
-                    time: "15分钟",
-                    calories: "380kcal"
-                },
-                {
-                    keyword: "async/await",
-                    definition: "JavaScript 关键字，async 声明异步函数，await 暂停执行等待 Promise 完成——让异步代码写起来像同步一样直观。",
-                    creativity: "async/await 让异步操作变得像同步代码一样易读——先 await 水烧开，再 await 面煮熟，同时 async 地准备调料。煮泡面就是最天然的 async/await：await 水开() 的时候，你可以 async 地切葱花、打鸡蛋，等水开了再 await 下面饼()，异步并行，效率翻倍。",
-                    dishName: "豪华版泡面",
-                    ingredients: {
-                        main: ["方便面 1包", "鸡蛋 2个"],
-                        auxiliary: ["午餐肉 4片", "青菜 2颗", "小葱 2根", "大蒜 2瓣"],
-                        seasoning: ["泡面调料包 1套", "香油 1茶匙", "老干妈 1汤匙（可选）"]
-                    },
-                    steps: [
-                        "async function 准备工作() —— 青菜洗净，葱切葱花，蒜切末，午餐肉切片。",
-                        "await 煎蛋()：热锅放少许油，打入2个鸡蛋，煎至喜欢的熟度（溏心或全熟），盛出备用。",
-                        "await 煎午餐肉()：用锅中余油将午餐肉两面煎至金黄，盛出。",
-                        "await 烧水()：锅中加水烧开（约500ml）。",
-                        "await 下面饼()：水开后放入面饼和调料包，煮2分钟。",
-                        "await 加配菜()：加入青菜煮30秒至断生。",
-                        "装碗：将面条和汤倒入大碗，码上煎蛋、午餐肉，撒葱花、蒜末，淋香油，加一勺老干妈（可选）。",
-                        "return "豪华泡面" —— 异步任务全部完成，开吃！"
-                    ],
-                    difficulty: "⭐ 简单",
-                    time: "8分钟",
-                    calories: "520kcal"
-                },
-                {
-                    keyword: "this",
-                    definition: "JavaScript 关键字，指向当前执行上下文的对象——在不同调用方式下指向不同，是 JS 中最容易混淆的概念之一。",
-                    creativity: "this 的指向取决于函数的调用方式——谁调用，this 就指向谁。做菜时的"this"也一样：在妈妈手里，this = 妈妈的味道；在自己手里，this = 黑暗料理；在厨师手里，this = 米其林三星。同样的食材，this 不同，结果天差地别。",
-                    dishName: "蛋炒饭",
-                    ingredients: {
-                        main: ["隔夜米饭 300g", "鸡蛋 3个"],
-                        auxiliary: ["小葱 3根"],
-                        seasoning: ["食用油 3汤匙", "盐 1.5茶匙", "生抽 1茶匙（可选）"]
-                    },
-                    steps: [
-                        "鸡蛋打散，加入少许盐（约1/4茶匙）调味。",
-                        "小葱切葱花，葱白和葱绿分开。",
-                        "热锅倒入2汤匙油，油热后倒入蛋液，快速划散炒成细碎蛋花，盛出备用。",
-                        "锅中再加1汤匙油，放入葱白爆香，倒入米饭，用锅铲边压边炒，炒至米粒分明、粒粒跳动（约3分钟）。",
-                        "加入炒好的鸡蛋，翻炒均匀。",
-                        "加入盐和生抽（可选），撒入葱绿，翻炒两下出锅。",
-                        "this.value = "简单却美味" —— 最简单的往往最考验功力。"
-                    ],
-                    difficulty: "⭐ 简单",
-                    time: "10分钟",
-                    calories: "320kcal"
-                }
-            ]
-        };
+    <!-- 欢迎弹窗 -->
+    <div id="welcomeOverlay" class="welcome-overlay">
+        <div class="welcome-card">
+            <span class="welcome-icon">🍳</span>
+            <h2 class="welcome-title">Programmer's Cookbook</h2>
+            <p class="welcome-desc">
+                用编程语言的<strong style="color:#ccc">关键字</strong>来命名一道道美食<br>
+                当代码遇上烟火气，每一行都值得被用心烹饪<br>
+                浏览 7 种语言、28+ 道菜谱，或投稿你自己的创意！
+            </p>
+            <div class="welcome-features">
+                <div class="welcome-feature">
+                    <div class="welcome-feature-icon bg-blue-500/15 text-blue-400"><i class="ri-code-s-slash-line"></i></div>
+                    <span class="welcome-feature-text">关键字菜谱</span>
+                </div>
+                <div class="welcome-feature">
+                    <div class="welcome-feature-icon bg-green-500/15 text-green-400"><i class="ri-play-circle-line"></i></div>
+                    <span class="welcome-feature-text">制作助手</span>
+                </div>
+                <div class="welcome-feature">
+                    <div class="welcome-feature-icon bg-pink-500/15 text-pink-400"><i class="ri-quill-pen-line"></i></div>
+                    <span class="welcome-feature-text">自由投稿</span>
+                </div>
+            </div>
+            <button class="welcome-btn" onclick="closeWelcome()">
+                开始探索
+            </button>
+        </div>
+    </div>
 
-        // ==================== 全局状态 ====================
-        let currentLang = 'python';
-        let isLightMode = false;
-        let renderedSections = new Set();
-
-        // ==================== 自定义光标 ====================
-        const cursor = document.getElementById('cursor');
-        const cursorDot = document.getElementById('cursor-dot');
-
-        document.addEventListener('mousemove', (e) => {
-            cursor.style.left = e.clientX - 10 + 'px';
-            cursor.style.top = e.clientY - 10 + 'px';
-            cursorDot.style.left = e.clientX - 3 + 'px';
-            cursorDot.style.top = e.clientY - 3 + 'px';
-        });
-
-        document.querySelectorAll('a, button, .glass-card').forEach(el => {
-            el.addEventListener('mouseenter', () => cursor.classList.add('hover'));
-            el.addEventListener('mouseleave', () => cursor.classList.remove('hover'));
-        });
-
-        // ==================== 粒子背景 ====================
-        if (typeof particlesJS !== 'undefined') {
-            particlesJS('particles-js', {
-                particles: {
-                    number: { value: 80 },
-                    color: { value: ['#667eea', '#764ba2', '#f093fb'] },
-                    shape: { type: 'circle' },
-                    opacity: { value: 0.5, random: true },
-                    size: { value: 3, random: true },
-                    line_linked: {
-                        enable: true,
-                        distance: 150,
-                        color: '#ffffff',
-                        opacity: 0.2,
-                        width: 1
-                    },
-                    move: {
-                        enable: true,
-                        speed: 1,
-                        direction: 'none',
-                        random: true,
-                        straight: false,
-                        out_mode: 'out',
-                        bounce: false
-                    }
-                },
-                interactivity: {
-                    detect_on: 'canvas',
-                    events: {
-                        onhover: { enable: true, mode: 'repulse' },
-                        onclick: { enable: true, mode: 'push' }
-                    }
-                },
-                retina_detect: true
-            });
-        }
-
-        // ==================== 代码雨效果 ====================
-        const canvas = document.getElementById('code-rain');
-        const ctx = canvas.getContext('2d');
-
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
-
-        const codeChars = '01アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン';
-        const fontSize = 14;
-        const columns = canvas.width / fontSize;
-        const drops = [];
-
-        for (let i = 0; i < columns; i++) {
-            drops[i] = Math.random() * -100;
-        }
-
-        function drawCodeRain() {
-            ctx.fillStyle = 'rgba(10, 10, 15, 0.05)';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-            ctx.fillStyle = '#0f0';
-            ctx.font = fontSize + 'px monospace';
-
-            for (let i = 0; i < drops.length; i++) {
-                const char = codeChars[Math.floor(Math.random() * codeChars.length)];
-                ctx.fillText(char, i * fontSize, drops[i] * fontSize);
-
-                if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
-                    drops[i] = 0;
-                }
-                drops[i]++;
-            }
-        }
-
-        setInterval(drawCodeRain, 50);
-
-        window.addEventListener('resize', () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        });
-
-        // ==================== 主题切换 ====================
-        const themeToggle = document.getElementById('themeToggle');
-
-        themeToggle.addEventListener('click', () => {
-            isLightMode = !isLightMode;
-            themeToggle.classList.toggle('light');
-
-            if (isLightMode) {
-                document.body.style.background = 'linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)';
-                document.body.style.color = '#1a1a2e';
-            } else {
-                document.body.style.background = '#0a0a0f';
-                document.body.style.color = '#e0e0e0';
-            }
-
-            // 重新渲染当前标签页
-            renderCards(currentLang);
-            showToast(isLightMode ? '☀️ 已切换为浅色模式' : '🌙 已切换为深色模式');
-        });
-
-        // ==================== 渲染菜谱卡片 ====================
-        function renderCards(lang) {
-            const section = document.getElementById(`section-${lang}`);
-            const grid = section.querySelector('.recipe-grid');
-
-            // 如果已经渲染过，直接返回（卡片已存在）
-            if (renderedSections.has(lang)) return;
-
-            // 清空现有内容（防止重复渲染）
-            grid.innerHTML = '';
-
-            recipes[lang].forEach((recipe, index) => {
-                const card = document.createElement('div');
-                card.className = 'glass-card p-6 cursor-pointer';
-                card.style.animationDelay = `${index * 0.1}s`;
-
-                const langColor = lang === 'python' ? 'python' : lang === 'java' ? 'java' : lang === 'cpp' ? 'cpp' : 'js';
-                const langColors = {
-                    python: { bg: 'from-blue-500 to-blue-700', text: 'text-blue-400', border: 'border-blue-500', light: 'bg-blue-500/10' },
-                    java: { bg: 'from-orange-500 to-orange-700', text: 'text-orange-400', border: 'border-orange-500', light: 'bg-orange-500/10' },
-                    cpp: { bg: 'from-cyan-500 to-cyan-700', text: 'text-cyan-400', border: 'border-cyan-500', light: 'bg-cyan-500/10' },
-                    js: { bg: 'from-yellow-400 to-yellow-600', text: 'text-yellow-400', border: 'border-yellow-500', light: 'bg-yellow-500/10' }
-                };
-
-                const colors = langColors[langColor];
-
-                card.innerHTML = `
-                    <div class="flex items-start justify-between mb-4">
-                        <div class="keyword-glow ${colors.text} text-2xl font-code font-bold">
-                            ${escapeHtml(recipe.keyword)}
+    <!-- 投稿弹窗 -->
+    <div id="submitOverlay" class="submit-overlay">
+        <div class="submit-card">
+            <div class="submit-header">
+                <h2><i class="ri-quill-pen-line"></i> 投稿菜谱</h2>
+                <button class="modal-close" onclick="closeSubmitModal()"><i class="ri-close-line"></i></button>
+            </div>
+            <div class="submit-body">
+                <form id="submitForm" onsubmit="event.preventDefault(); submitRecipe();">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">编程语言 <span class="required">*</span></label>
+                            <select class="form-select" id="submitLang">
+                                <option value="python">Python</option>
+                                <option value="java">Java</option>
+                                <option value="cpp">C++</option>
+                                <option value="javascript">JavaScript</option>
+                                <option value="go">Go</option>
+                                <option value="rust">Rust</option>
+                                <option value="kotlin">Kotlin</option>
+                            </select>
                         </div>
-                        <div class="flex gap-2">
-                            <span class="px-3 py-1 ${colors.light} ${colors.text} rounded-full text-xs font-medium">
-                                ${recipe.difficulty}
-                            </span>
+                        <div class="form-group">
+                            <label class="form-label">关键字 <span class="required">*</span></label>
+                            <input type="text" class="form-input" id="submitKeyword" placeholder="如：async, map, try...">
                         </div>
                     </div>
 
-                    <div class="mb-5">
-                        <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
-                            <i class="ri-book-open-line ${colors.text}"></i>
-                            关键字释义
-                        </h3>
-                        <p class="text-sm ${isLightMode ? 'text-gray-700' : 'text-gray-300'} leading-relaxed">
-                            ${escapeHtml(recipe.definition)}
-                        </p>
+                    <div class="form-group">
+                        <label class="form-label">菜品名称 <span class="required">*</span></label>
+                        <input type="text" class="form-input" id="submitDishName" placeholder="如：宫保鸡丁、提拉米苏...">
                     </div>
 
-                    <div class="mb-5">
-                        <h3 class="text-lg font-bold mb-2 flex items-center gap-2">
-                            <i class="ri-lightbulb-line ${colors.text}"></i>
-                            取名创意
-                        </h3>
-                        <p class="text-sm ${isLightMode ? 'text-gray-700' : 'text-gray-300'} leading-relaxed">
-                            ${escapeHtml(recipe.creativity)}
-                        </p>
+                    <div class="form-group">
+                        <label class="form-label">关键字释义</label>
+                        <input type="text" class="form-input" id="submitDefinition" placeholder="简要解释这个关键字的含义...">
                     </div>
 
-                    <div class="mb-5">
-                        <div class="flex items-center justify-between mb-3">
-                            <h3 class="text-lg font-bold flex items-center gap-2">
-                                <i class="ri-restaurant-line ${colors.text}"></i>
-                                原始菜品
-                            </h3>
-                            <div class="flex gap-3 text-xs ${isLightMode ? 'text-gray-500' : 'text-gray-400'}">
-                                <span><i class="ri-time-line"></i> ${recipe.time}</span>
-                                <span><i class="ri-fire-line"></i> ${recipe.calories}</span>
+                    <div class="form-group">
+                        <label class="form-label">创意描述 <span class="required">*</span></label>
+                        <textarea class="form-textarea" id="submitCreativity" placeholder="为什么用这个关键字来命名这道菜？有什么有趣的关联？"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">难度</label>
+                            <select class="form-select" id="submitDifficulty">
+                                <option value="⭐ 简单">简单</option>
+                                <option value="⭐⭐ 中等" selected>中等</option>
+                                <option value="⭐⭐⭐ 较难">较难</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">预计用时</label>
+                            <input type="text" class="form-input" id="submitTime" placeholder="如：30分钟">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">热量</label>
+                        <input type="text" class="form-input" id="submitCalories" placeholder="如：350kcal">
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">主料 <span class="form-hint">（每行一种）</span></label>
+                        <textarea class="form-textarea" id="submitMain" style="min-height:60px" placeholder="鸡胸肉 200g&#10;西兰花 150g"></textarea>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">辅料</label>
+                            <textarea class="form-textarea" id="submitAux" style="min-height:50px" placeholder="生姜 3片&#10;大蒜 2瓣"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">调料</label>
+                            <textarea class="form-textarea" id="submitSeasoning" style="min-height:50px" placeholder="盐 适量&#10;生抽 1汤匙"></textarea>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">烹饪步骤 <span class="required">*</span></label>
+                        <div class="step-inputs" id="stepInputs">
+                            <div class="step-input-row" data-step="1">
+                                <span class="step-input-num">01</span>
+                                <input type="text" class="form-input step-input" placeholder="描述这一步的操作...">
+                                <button class="step-remove-btn" onclick="removeStep(this)" title="删除此步"><i class="ri-close-line"></i></button>
                             </div>
                         </div>
-                        <p class="text-2xl font-bold bg-gradient-to-r ${colors.bg} bg-clip-text text-transparent">
-                            ${escapeHtml(recipe.dishName)}
-                        </p>
+                        <button type="button" class="add-step-btn" onclick="addStep()">
+                            <i class="ri-add-line"></i> 添加步骤
+                        </button>
                     </div>
 
-                    <div class="mb-5">
-                        <h3 class="text-lg font-bold mb-3 flex items-center gap-2">
-                            <i class="ri-shopping-basket-2-line ${colors.text}"></i>
-                            原料明细
-                        </h3>
-                        <div class="space-y-3">
-                            <div class="${isLightMode ? 'bg-gray-100' : 'bg-white/5'} rounded-xl p-3">
-                                <p class="text-xs font-semibold text-green-500 mb-2">🥩 主料</p>
-                                <div class="flex flex-wrap gap-2">
-                                    ${recipe.ingredients.main.map(i =>
-                                        `<span class="ingredient-chip bg-green-500/20 text-green-400 border border-green-500/30">${escapeHtml(i)}</span>`
-                                    ).join('')}
-                                </div>
-                            </div>
-                            <div class="${isLightMode ? 'bg-gray-100' : 'bg-white/5'} rounded-xl p-3">
-                                <p class="text-xs font-semibold text-blue-500 mb-2">🥬 辅料</p>
-                                <div class="flex flex-wrap gap-2">
-                                    ${recipe.ingredients.auxiliary.map(i =>
-                                        `<span class="ingredient-chip bg-blue-500/20 text-blue-400 border border-blue-500/30">${escapeHtml(i)}</span>`
-                                    ).join('')}
-                                </div>
-                            </div>
-                            <div class="${isLightMode ? 'bg-gray-100' : 'bg-white/5'} rounded-xl p-3">
-                                <p class="text-xs font-semibold text-orange-500 mb-2">🧂 调料</p>
-                                <div class="flex flex-wrap gap-2">
-                                    ${recipe.ingredients.seasoning.map(i =>
-                                        `<span class="ingredient-chip bg-orange-500/20 text-orange-400 border border-orange-500/30">${escapeHtml(i)}</span>`
-                                    ).join('')}
-                                </div>
-                            </div>
+                    <button type="submit" class="submit-btn">
+                        <i class="ri-send-plane-fill"></i> 提交菜谱
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- 浮动投稿按钮 -->
+    <button class="fab-submit" onclick="openSubmitModal()" title="投稿菜谱">
+        <i class="ri-quill-pen-line"></i>
+    </button>
+
+    <!-- 菜谱详情模态框 -->
+    <div id="recipeModal" class="modal-overlay">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <div class="flex items-center gap-3 mb-1">
+                            <span class="modal-keyword font-code text-sm text-blue-400">keyword</span>
+                            <span class="modal-difficulty text-xs px-2 py-1 bg-white/10 rounded-full text-gray-400">难度</span>
+                        </div>
+                        <div class="modal-dish-name text-xl font-bold bg-gradient-to-r from-blue-500 to-blue-700 bg-clip-text text-transparent">
+                            菜品名
                         </div>
                     </div>
+                    <button class="modal-close" onclick="closeRecipeDetail()">
+                        <i class="ri-close-line"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="modal-body">
+                <!-- 动态内容 -->
+            </div>
+        </div>
+    </div>
 
-                    <div class="mb-4">
-                        <div class="flex justify-between items-center mb-3">
-                            <h3 class="text-lg font-bold flex items-center gap-2">
-                                <i class="ri-chef-hat-line ${colors.text}"></i>
-                                烹饪步骤
-                            </h3>
-                            <button onclick="copyRecipe(event, '${escapeHtml(recipe.dishName)}')"
-                                class="copy-btn px-4 py-2 bg-gradient-to-r ${colors.bg} text-white rounded-xl text-sm font-medium flex items-center gap-2 shadow-lg">
-                                <i class="ri-file-copy-line"></i>
-                                复制菜谱
-                            </button>
-                        </div>
-                        <div class="space-y-3">
-                            ${recipe.steps.map((step, i) => `
-                                <div class="flex gap-3 items-start">
-                                    <span class="step-badge flex-shrink-0">${i + 1}</span>
-                                    <p class="text-sm ${isLightMode ? 'text-gray-700' : 'text-gray-300'} leading-relaxed pt-1">
-                                        ${escapeHtml(step)}
-                                    </p>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                `;
-
-                grid.appendChild(card);
-            });
-
-            renderedSections.add(lang);
-
-            // GSAP 动画（如果可用）
-            if (typeof gsap !== 'undefined') {
-                gsap.fromTo(section.querySelectorAll('.glass-card'),
-                    { opacity: 0, y: 50 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        duration: 0.6,
-                        stagger: 0.1,
-                        ease: 'power2.out'
-                    }
-                );
-            }
-        }
-
-        function escapeHtml(text) {
-            const div = document.createElement('div');
-            div.textContent = text;
-            return div.innerHTML;
-        }
-
-        // ==================== 标签切换 ====================
-        function switchTab(lang) {
-            currentLang = lang;
-
-            // 更新标签状态
-            document.querySelectorAll('.tab-btn').forEach(btn => {
-                btn.classList.remove('active');
-            });
-            document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
-
-            // 更新内容区
-            document.querySelectorAll('[id^="section-"]').forEach(section => {
-                section.classList.add('hidden');
-            });
-            const targetSection = document.getElementById(`section-${lang}`);
-            targetSection.classList.remove('hidden');
-
-            // 渲染内容
-            renderCards(lang);
-
-            // 更新统计
-            const langNames = { python: 'Python', java: 'Java', cpp: 'C++', javascript: 'JavaScript' };
-            document.getElementById('currentLang').textContent = `当前：${langNames[lang]} 专区`;
-
-            // 滚动到内容区
-            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        // ==================== 搜索功能 ====================
-        const searchInput = document.getElementById('searchInput');
-
-        searchInput.addEventListener('input', (e) => {
-            const query = e.target.value.toLowerCase().trim();
-
-            if (!query) {
-                // 恢复所有卡片
-                document.querySelectorAll('.glass-card').forEach(card => {
-                    card.style.display = '';
-                });
-                document.getElementById('noResults').classList.add('hidden');
-                return;
-            }
-
-            let foundCount = 0;
-
-            // 遍历所有菜谱
-            for (const lang in recipes) {
-                recipes[lang].forEach(recipe => {
-                    const card = findCardByRecipe(recipe);
-                    if (card) {
-                        const match =
-                            recipe.keyword.toLowerCase().includes(query) ||
-                            recipe.dishName.toLowerCase().includes(query) ||
-                            recipe.definition.toLowerCase().includes(query) ||
-                            lang.toLowerCase().includes(query);
-
-                        if (match) {
-                            card.style.display = '';
-                            foundCount++;
-                        } else {
-                            card.style.display = 'none';
-                        }
-                    }
-                });
-            }
-
-            // 显示/隐藏无结果提示
-            document.getElementById('noResults').classList.toggle('hidden', foundCount > 0);
-        });
-
-        function findCardByRecipe(recipe) {
-            const cards = document.querySelectorAll('.glass-card');
-            for (const card of cards) {
-                const keyword = card.querySelector('.keyword-glow');
-                if (keyword && keyword.textContent.trim() === recipe.keyword) {
-                    return card;
-                }
-            }
-            return null;
-        }
-
-        // ==================== 复制菜谱 ====================
-        function copyRecipe(event, dishName) {
-            event.stopPropagation();
-            const btn = event.currentTarget;
-
-            // 找到对应的菜谱数据
-            let recipeData = null;
-            let langKey = null;
-            for (const lang in recipes) {
-                const found = recipes[lang].find(r => r.dishName === dishName);
-                if (found) {
-                    recipeData = found;
-                    langKey = lang;
-                    break;
-                }
-            }
-
-            if (!recipeData) return;
-
-            // 组装复制文本
-            let text = `【${recipeData.keyword} · ${recipeData.dishName}】\n`;
-            text += `难度：${recipeData.difficulty} | 时间：${recipeData.time} | 热量：${recipeData.calories}\n\n`;
-            text += `📖 关键字释义：${recipeData.definition}\n\n`;
-            text += `💡 取名创意：${recipeData.creativity}\n\n`;
-            text += `🥬 原料：\n`;
-            text += `  主料：${recipeData.ingredients.main.join('、')}\n`;
-            text += `  辅料：${recipeData.ingredients.auxiliary.join('、')}\n`;
-            text += `  调料：${recipeData.ingredients.seasoning.join('、')}\n\n`;
-            text += `👨‍🍳 做法：\n`;
-            recipeData.steps.forEach((step, i) => {
-                text += `  ${i + 1}. ${step}\n`;
-            });
-
-            navigator.clipboard.writeText(text).then(() => {
-                btn.innerHTML = '<i class="ri-check-line"></i> 已复制！';
-                showToast(`✅ "${dishName}" 菜谱已复制到剪贴板`);
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="ri-file-copy-line"></i> 复制菜谱';
-                }, 2000);
-            }).catch(() => {
-                // 降级方案
-                const textarea = document.createElement('textarea');
-                textarea.value = text;
-                document.body.appendChild(textarea);
-                textarea.select();
-                document.execCommand('copy');
-                document.body.removeChild(textarea);
-                btn.innerHTML = '<i class="ri-check-line"></i> 已复制！';
-                showToast(`✅ "${dishName}" 菜谱已复制到剪贴板`);
-                setTimeout(() => {
-                    btn.innerHTML = '<i class="ri-file-copy-line"></i> 复制菜谱';
-                }, 2000);
-            });
-        }
-
-        // ==================== Toast 通知 ====================
-        function showToast(message) {
-            const toast = document.getElementById('toast');
-            const toastMessage = document.getElementById('toastMessage');
-
-            toastMessage.textContent = message;
-            toast.classList.remove('opacity-0', 'translate-y-4');
-
-            setTimeout(() => {
-                toast.classList.add('opacity-0', 'translate-y-4');
-            }, 3000);
-        }
-
-        // ==================== 初始化 ====================
-        document.addEventListener('DOMContentLoaded', () => {
-            // 渲染默认的 Python 标签页
-            renderCards('python');
-
-            // 页面加载动画（如果 GSAP 可用）
-            if (typeof gsap !== 'undefined') {
-                gsap.from('header > div', {
-                    opacity: 0,
-                    y: 30,
-                    duration: 1,
-                    ease: 'power2.out'
-                });
-
-                gsap.from('.tab-btn', {
-                    opacity: 0,
-                    y: 20,
-                    duration: 0.6,
-                    stagger: 0.1,
-                    delay: 0.3,
-                    ease: 'power2.out'
-                });
-            }
-
-            // 统计信息
-            let totalRecipes = 0;
-            for (const lang in recipes) {
-                totalRecipes += recipes[lang].length;
-            }
-            document.getElementById('recipeCount').textContent = `共 ${totalRecipes} 道菜谱`;
-        });
-
-        // ==================== 键盘快捷键 ====================
-        document.addEventListener('keydown', (e) => {
-            // Ctrl/Cmd + K 聚焦搜索框
-            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
-                e.preventDefault();
-                document.getElementById('searchInput').focus();
-            }
-
-            // 数字键切换标签
-            const langKeys = { '1': 'python', '2': 'java', '3': 'cpp', '4': 'javascript' };
-            if (langKeys[e.key] && !e.ctrlKey && !e.metaKey) {
-                switchTab(langKeys[e.key]);
-            }
-        });
-    </script>
+    <!-- 业务脚本：按依赖顺序加载 -->
+    <script src="js/data.js?v=7"></script>
+    <script src="js/effects.js?v=7"></script>
+    <script src="js/ui.js?v=7"></script>
+    <script src="js/detail.js?v=7"></script>
+    <script src="js/welcome.js?v=7"></script>
+    <script src="js/main.js?v=7"></script>
 </body>
 </html>

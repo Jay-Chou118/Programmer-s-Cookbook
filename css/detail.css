@@ -1,0 +1,341 @@
+/* ==================== 详情模态框 ==================== */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(8px);
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background: #12121a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    width: 90%;
+    max-width: 640px;
+    max-height: 85vh;
+    overflow-y: auto;
+    padding: 0;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+.modal-overlay.active .modal-content {
+    transform: translateY(0) scale(1);
+}
+
+.modal-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(18, 18, 26, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px 24px 0 0;
+}
+
+.modal-close {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.05);
+    color: #999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 18px;
+}
+
+.modal-close:hover {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.3);
+}
+
+.modal-body {
+    padding: 20px 24px 24px;
+}
+
+/* ==================== 计时器区域 ==================== */
+.timer-section {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+    padding: 16px 20px;
+    margin-bottom: 20px;
+}
+
+.timer-display {
+    font-family: 'Fira Code', monospace;
+    font-size: 36px;
+    font-weight: 700;
+    text-align: center;
+    letter-spacing: 2px;
+    padding: 8px 0;
+}
+
+.timer-controls {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-top: 12px;
+}
+
+.timer-btn {
+    padding: 8px 20px;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.06);
+    color: #ccc;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.timer-btn:hover {
+    background: rgba(255, 255, 255, 0.12);
+    color: #fff;
+}
+
+.timer-btn.primary {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-color: transparent;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.timer-btn.primary:hover {
+    box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
+    transform: translateY(-1px);
+}
+
+.timer-btn.danger {
+    background: rgba(239, 68, 68, 0.15);
+    border-color: rgba(239, 68, 68, 0.3);
+    color: #ef4444;
+}
+
+.timer-btn.danger:hover {
+    background: rgba(239, 68, 68, 0.25);
+}
+
+/* ==================== 进度条 ==================== */
+.progress-bar-container {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 10px;
+    height: 8px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.progress-bar-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: linear-gradient(90deg, #667eea, #764ba2, #f093fb);
+    transition: width 0.4s ease;
+    width: 0%;
+}
+
+.progress-text {
+    text-align: center;
+    font-size: 13px;
+    color: #888;
+    margin-bottom: 6px;
+}
+
+/* ==================== TodoList 步骤 ==================== */
+.todo-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+    padding: 14px 16px;
+    border-radius: 14px;
+    margin-bottom: 8px;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.todo-step:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(255, 255, 255, 0.12);
+}
+
+.todo-step.completed {
+    background: rgba(34, 197, 94, 0.06);
+    border-color: rgba(34, 197, 94, 0.15);
+}
+
+.todo-step.completed .todo-text {
+    text-decoration: line-through;
+    color: #666;
+}
+
+.todo-step.completed .todo-checkbox {
+    background: #22c55e;
+    border-color: #22c55e;
+}
+
+.todo-step.completed .todo-checkbox i {
+    opacity: 1;
+}
+
+.todo-checkbox {
+    width: 28px;
+    height: 28px;
+    min-width: 28px;
+    border-radius: 10px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    margin-top: 2px;
+}
+
+.todo-checkbox i {
+    color: #fff;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.2s ease;
+}
+
+.todo-step-number {
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    font-weight: 700;
+    color: #666;
+    min-width: 20px;
+    text-align: center;
+    margin-top: 4px;
+}
+
+.todo-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #ccc;
+    flex: 1;
+    transition: all 0.3s ease;
+}
+
+/* ==================== 原料清单 ==================== */
+.ingredient-check-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: all 0.2s ease;
+    cursor: pointer;
+}
+
+.ingredient-check-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.ingredient-check-item.checked {
+    opacity: 0.5;
+}
+
+.ingredient-check-item.checked .ingredient-name {
+    text-decoration: line-through;
+}
+
+.ingredient-check-box {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    border-radius: 6px;
+    border: 1.5px solid rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.04);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-size: 11px;
+    color: transparent;
+}
+
+.ingredient-check-item.checked .ingredient-check-box {
+    background: #22c55e;
+    border-color: #22c55e;
+    color: #fff;
+}
+
+.ingredient-name {
+    font-size: 13px;
+    color: #bbb;
+    transition: all 0.2s ease;
+}
+
+/* ==================== 完成庆祝 ==================== */
+.completion-banner {
+    text-align: center;
+    padding: 20px;
+    border-radius: 16px;
+    background: linear-gradient(135deg, rgba(34, 197, 94, 0.1), rgba(102, 126, 234, 0.1));
+    border: 1px solid rgba(34, 197, 94, 0.2);
+    margin-top: 16px;
+    display: none;
+}
+
+.completion-banner.show {
+    display: block;
+    animation: celebrateIn 0.5s ease;
+}
+
+@keyframes celebrateIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 640px) {
+    .modal-content {
+        width: 95%;
+        max-height: 90vh;
+        border-radius: 20px;
+    }
+
+    .modal-header {
+        padding: 16px 18px 12px;
+        border-radius: 20px 20px 0 0;
+    }
+
+    .modal-body {
+        padding: 16px 18px 20px;
+    }
+
+    .timer-display {
+        font-size: 28px;
+    }
+
+    .todo-step {
+        padding: 12px 14px;
+    }
+}
