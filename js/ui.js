@@ -18,10 +18,11 @@ const langColors = {
     go:        { bg: 'from-sky-400 to-sky-600', text: 'text-sky-400', border: 'border-sky-500', light: 'bg-sky-500/10' },
     rust:      { bg: 'from-red-500 to-orange-600', text: 'text-red-400', border: 'border-red-500', light: 'bg-red-500/10' },
     kotlin:    { bg: 'from-violet-500 to-purple-600', text: 'text-violet-400', border: 'border-violet-500', light: 'bg-violet-500/10' },
-    community: { bg: 'from-pink-500 to-rose-600', text: 'text-pink-400', border: 'border-pink-500', light: 'bg-pink-500/10' }
+    community: { bg: 'from-pink-500 to-rose-600', text: 'text-pink-400', border: 'border-pink-500', light: 'bg-pink-500/10' },
+    favorites: { bg: 'from-rose-500 to-red-600', text: 'text-rose-400', border: 'border-rose-500', light: 'bg-rose-500/10' }
 };
 
-const langNames = { python: 'Python', java: 'Java', cpp: 'C++', javascript: 'JavaScript', go: 'Go', rust: 'Rust', kotlin: 'Kotlin', community: '社区' };
+const langNames = { python: 'Python', java: 'Java', cpp: 'C++', javascript: 'JavaScript', go: 'Go', rust: 'Rust', kotlin: 'Kotlin', community: '社区', favorites: '收藏' };
 
 // ==================== 渲染菜谱卡片 ====================
 function renderCards(lang) {
@@ -88,6 +89,22 @@ function renderCards(lang) {
                 </div>
             ` : ''}
 
+            <div class="card-actions">
+                <div class="card-actions-left">
+                    <button class="fav-btn ${isFavorited(lang, recipe._index, isCommunity ? 'community' : 'official') ? 'favorited' : ''}"
+                        data-lang="${lang}" data-index="${recipe._index}" data-source="${isCommunity ? 'community' : 'official'}"
+                        onclick="event.stopPropagation(); toggleFavorite('${lang}', ${recipe._index}, '${isCommunity ? 'community' : 'official'}', event)">
+                        <i class="${isFavorited(lang, recipe._index, isCommunity ? 'community' : 'official') ? 'ri-heart-fill' : 'ri-heart-line'}"></i>
+                    </button>
+                    <button class="like-btn ${hasLiked(lang, recipe._index, isCommunity ? 'community' : 'official') ? 'liked' : ''}"
+                        data-lang="${lang}" data-index="${recipe._index}" data-source="${isCommunity ? 'community' : 'official'}"
+                        onclick="event.stopPropagation(); toggleLike('${lang}', ${recipe._index}, '${isCommunity ? 'community' : 'official'}', event)">
+                        <i class="${hasLiked(lang, recipe._index, isCommunity ? 'community' : 'official') ? 'ri-thumb-up-fill' : 'ri-thumb-up-line'}"></i>
+                        <span>${getLikeCount(lang, recipe._index, isCommunity ? 'community' : 'official')}</span>
+                    </button>
+                </div>
+            </div>
+
             <button onclick="event.stopPropagation(); ${isCommunity ? `openCommunityDetail(${recipe._index})` : `openRecipeDetail('${lang}', ${recipe._index})`}"
                 class="w-full py-3 rounded-2xl font-bold text-sm text-white bg-gradient-to-r ${colors.bg} shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
                 <i class="ri-play-circle-line"></i>
@@ -114,10 +131,10 @@ function switchTab(lang) {
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.classList.remove('active');
         // 重置为默认灰色样式
-        btn.classList.remove('border-blue-500', 'border-orange-500', 'border-cyan-500', 'border-yellow-500', 'border-sky-500', 'border-red-500', 'border-violet-500', 'border-pink-500');
-        btn.classList.remove('text-blue-300', 'text-orange-300', 'text-cyan-300', 'text-yellow-300', 'text-sky-300', 'text-red-300', 'text-violet-300', 'text-pink-300');
-        btn.classList.remove('bg-blue-500/15', 'bg-orange-500/15', 'bg-cyan-500/15', 'bg-yellow-500/15', 'bg-sky-500/15', 'bg-red-500/15', 'bg-violet-500/15', 'bg-pink-500/15');
-        btn.classList.remove('shadow-blue-500/20', 'shadow-orange-500/20', 'shadow-cyan-500/20', 'shadow-yellow-500/20', 'shadow-sky-500/20', 'shadow-red-500/20', 'shadow-violet-500/20', 'shadow-pink-500/20');
+        btn.classList.remove('border-blue-500', 'border-orange-500', 'border-cyan-500', 'border-yellow-500', 'border-sky-500', 'border-red-500', 'border-violet-500', 'border-pink-500', 'border-rose-500');
+        btn.classList.remove('text-blue-300', 'text-orange-300', 'text-cyan-300', 'text-yellow-300', 'text-sky-300', 'text-red-300', 'text-violet-300', 'text-pink-300', 'text-rose-300');
+        btn.classList.remove('bg-blue-500/15', 'bg-orange-500/15', 'bg-cyan-500/15', 'bg-yellow-500/15', 'bg-sky-500/15', 'bg-red-500/15', 'bg-violet-500/15', 'bg-pink-500/15', 'bg-rose-500/15');
+        btn.classList.remove('shadow-blue-500/20', 'shadow-orange-500/20', 'shadow-cyan-500/20', 'shadow-yellow-500/20', 'shadow-sky-500/20', 'shadow-red-500/20', 'shadow-violet-500/20', 'shadow-pink-500/20', 'shadow-rose-500/20');
         btn.classList.add('border-gray-600', 'text-gray-300');
     });
 
@@ -144,6 +161,8 @@ function switchTab(lang) {
     // 渲染内容
     if (lang === 'community') {
         renderCommunityRecipes();
+    } else if (lang === 'favorites') {
+        renderFavorites();
     } else {
         renderCards(lang);
     }

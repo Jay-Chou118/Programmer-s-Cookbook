@@ -21,6 +21,11 @@ document.addEventListener('DOMContentLoaded', () => {
     if (typeof showWelcome === 'function') {
         showWelcome();
     }
+
+    // 初始化今日推荐卡片
+    if (typeof updateDailyCard === 'function') {
+        updateDailyCard();
+    }
 });
 
 // ==================== 键盘快捷键 ====================

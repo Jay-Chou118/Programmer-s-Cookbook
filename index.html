@@ -68,6 +68,7 @@
     <link rel="stylesheet" href="css/style.css">
     <link rel="stylesheet" href="css/detail.css">
     <link rel="stylesheet" href="css/welcome.css">
+    <link rel="stylesheet" href="css/features.css">
 </head>
 <body>
     <!-- 自定义光标 -->
@@ -160,6 +161,14 @@
                         社区
                     </span>
                 </button>
+                <button onclick="switchTab('favorites')"
+                    class="tab-btn tab-text px-6 py-3 rounded-2xl font-medium font-code text-sm border-2 border-gray-600 text-gray-300 bg-gray-900/70 shadow-lg transition-all"
+                    data-lang="favorites" data-active-border="border-rose-500" data-active-text="text-rose-300" data-active-bg="bg-rose-500/15" data-active-shadow="shadow-rose-500/20">
+                    <span class="flex items-center gap-2">
+                        <i class="ri-heart-line"></i>
+                        收藏
+                    </span>
+                </button>
             </div>
 
             <!-- 搜索框 -->
@@ -172,6 +181,9 @@
                     id="searchInput"
                 >
             </div>
+
+            <!-- 今日推荐 -->
+            <div id="dailyCard" class="daily-card"></div>
 
             <!-- 主题切换 + 统计 -->
             <div class="flex justify-center items-center gap-6">
@@ -226,6 +238,11 @@
 
             <!-- 社区专区 -->
             <section id="section-community" class="hidden">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+            </section>
+
+            <!-- 收藏专区 -->
+            <section id="section-favorites" class="hidden">
                 <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
             </section>
 
@@ -436,11 +453,12 @@
     </div>
 
     <!-- 业务脚本：按依赖顺序加载 -->
-    <script src="js/data.js?v=7"></script>
-    <script src="js/effects.js?v=7"></script>
-    <script src="js/ui.js?v=7"></script>
-    <script src="js/detail.js?v=7"></script>
-    <script src="js/welcome.js?v=7"></script>
-    <script src="js/main.js?v=7"></script>
+    <script src="js/data.js?v=9"></script>
+    <script src="js/effects.js?v=9"></script>
+    <script src="js/ui.js?v=9"></script>
+    <script src="js/detail.js?v=9"></script>
+    <script src="js/welcome.js?v=9"></script>
+    <script src="js/features.js?v=9"></script>
+    <script src="js/main.js?v=9"></script>
 </body>
 </html>
