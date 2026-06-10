@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Programmer's Cookbook - 程序员关键字菜谱</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;600&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --python-color: #3776ab;
+            --java-color: #f89820;
+            --cpp-color: #00599C;
+            --js-color: #f7df1e;
+        }
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        .tab-indicator {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .recipe-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .recipe-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        }
+        .keyword-highlight {
+            background: linear-gradient(120deg, rgba(255,255,255,0.15) 0%, rgba(255,255,255,0.05) 100%);
+            border-left: 4px solid;
+        }
+        .python-border { border-color: var(--python-color); }
+        .java-border { border-color: var(--java-color); }
+        .cpp-border { border-color: var(--cpp-color); }
+        .js-border { border-color: var(--js-color); }
+        .python-tag { background: var(--python-color); }
+        .java-tag { background: var(--java-color); }
+        .cpp-tag { background: var(--cpp-color); }
+        .js-tag { background: var(--js-color); }
+        .python-tab.active { background: var(--python-color); }
+        .java-tab.active { background: var(--java-color); }
+        .cpp-tab.active { background: var(--cpp-color); }
+        .js-tab.active { background: var(--js-color); }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .ingredient-tag {
+            transition: all 0.2s;
+        }
+        .ingredient-tag:hover {
+            transform: scale(1.05);
+        }
+        .step-number {
+            min-width: 28px;
+            height: 28px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            font-weight: 700;
+            font-size: 14px;
+        }
+        .copy-btn {
+            transition: all 0.2s;
+        }
+        .copy-btn:hover {
+            transform: scale(1.05);
+        }
+        .copy-btn:active {
+            transform: scale(0.95);
+        }
+        /* 暗黑模式增强 */
+        .card-bg {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .card-bg-light {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        /* 移动端优化 */
+        @media (max-width: 640px) {
+            .recipe-grid {
+                grid-template-columns: 1fr !important;
+            }
+            .tab-text {
+                font-size: 14px !important;
+            }
+        }
+    </style>
+</head>
+<body class="text-gray-100">
+    <!-- 页面头部 -->
+    <header class="py-8 px-4">
+        <div class="max-w-7xl mx-auto text-center">
+            <h1 class="text-4xl md:text-5xl font-bold mb-3 code-font">
+                <span class="text-yellow-400">&lt;</span>
+                Programmer's Cookbook
+                <span class="text-yellow-400">/&gt;</span>
+            </h1>
+            <p class="text-gray-400 text-lg md:text-xl">程序员关键字菜谱 —— 用代码的温度，烹饪生活的美味</p>
+        </div>
+    </header>
+
+    <!-- 语言分类标签 -->
+    <nav class="px-4 mb-8">
+        <div class="max-w-4xl mx-auto">
+            <div class="flex flex-wrap justify-center gap-3">
+                <button onclick="switchTab('python')"
+                    class="python-tab tab-indicator px-6 py-3 rounded-full font-medium code-font text-sm md:text-base border border-[#3776ab] text-gray-300 hover:bg-[#3776ab] hover:text-white transition-all active"
+                    id="tab-python">
+                    🐍 Python
+                </button>
+                <button onclick="switchTab('java')"
+                    class="java-tab tab-indicator px-6 py-3 rounded-full font-medium code-font text-sm md:text-base border border-[#f89820] text-gray-300 hover:bg-[#f89820] hover:text-white transition-all"
+                    id="tab-java">
+                    ☕ Java
+                </button>
+                <button onclick="switchTab('cpp')"
+                    class="cpp-tab tab-indicator px-6 py-3 rounded-full font-medium code-font text-sm md:text-base border border-[#00599C] text-gray-300 hover:bg-[#00599C] hover:text-white transition-all"
+                    id="tab-cpp">
+                    ⚡ C++
+                </button>
+                <button onclick="switchTab('javascript')"
+                    class="js-tab tab-indicator px-6 py-3 rounded-full font-medium code-font text-sm md:text-base border border-[#f7df1e] text-gray-300 hover:bg-[#f7df1e] hover:text-black transition-all"
+                    id="tab-javascript">
+                    🟨 JavaScript
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- 菜谱内容区 -->
+    <main class="px-4 pb-16">
+        <div class="max-w-7xl mx-auto">
+            <!-- Python 专区 -->
+            <section id="section-python" class="fade-in">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <!-- Python 菜谱卡片由 JS 动态生成 -->
+                </div>
+            </section>
+
+            <!-- Java 专区 -->
+            <section id="section-java" class="hidden fade-in">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+
+            <!-- C++ 专区 -->
+            <section id="section-cpp" class="hidden fade-in">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+
+            <!-- JavaScript 专区 -->
+            <section id="section-javascript" class="hidden fade-in">
+                <div class="recipe-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
+            </section>
+        </div>
+    </main>
+
+    <!-- 页脚 -->
+    <footer class="py-6 px-4 border-t border-gray-700">
+        <div class="max-w-7xl mx-auto text-center text-gray-500 text-sm">
+            <p class="code-font">Made with 💻 & 🍳 by Programmers, for Programmers</p>
+            <p class="mt-2">© 2024 Programmer's Cookbook · 用代码调味生活</p>
+        </div>
+    </footer>
+
+    <script>
+        // ==================== 菜谱数据 ====================
+        const recipes = {
+            python: [
+                {
+                    keyword: "import",
+                    definition: "Python 关键字，用于导入模块或包，将外部功能引入当前命名空间。",
+                    creativity: "做菜的第一步往往是"导入"食材——从冰箱/菜市场把原料请进厨房，就像 import 把模块请进代码。没有 import，巧妇难为无米之炊；没有食材，大厨也只能对着空锅发呆。",
+                    dishName: "番茄炒蛋",
+                    ingredients: {
+                        main: ["鸡蛋 4个", "番茄 2个（约300g）"],
+                        auxiliary: ["小葱 2根", "大蒜 2瓣"],
+                        seasoning: ["食用油 3汤匙", "盐 1茶匙", "白糖 1茶匙", "生抽 1茶匙", "料酒 几滴"]
+                    },
+                    steps: [
+                        "番茄洗净去蒂，切成小块（约2cm见方）；鸡蛋打入碗中，加少许盐（约1/4茶匙）和几滴料酒，用筷子充分搅打至蛋液起泡。",
+                        "小葱切葱花，大蒜切末备用。",
+                        "热锅倒入2汤匙食用油，油热后（微微冒烟）倒入蛋液，待底部凝固后用锅铲快速划散，炒至金黄蓬松后盛出备用。",
+                        "锅中再加1汤匙油，放入蒜末爆香，倒入番茄块中火翻炒，用锅铲轻压番茄使其出汁，炒至番茄软烂呈酱状（约2分钟）。",
+                        "将炒好的鸡蛋倒回锅中，与番茄翻炒均匀，加入盐、白糖、生抽调味，继续翻炒1分钟让味道融合。",
+                        "关火装盘，撒上葱花点缀，趁热享用。"
+                    ]
+                },
+                {
+                    keyword: "def",
+                    definition: "Python 关键字，用于定义函数（define function），将一段可复用的代码封装成命名块。",
+                    creativity: "def 是 Python 中定义函数的关键字——把一段逻辑封装起来，随用随调。这道"定义红烧肉"也一样：把五花肉、调料和火候封装进一口锅，定义出人间最治愈的味道。函数可以复用，这道菜可以再来一碗饭。",
+                    dishName: "红烧肉",
+                    ingredients: {
+                        main: ["带皮五花肉 500g"],
+                        auxiliary: ["生姜 4片", "大葱 1段", "八角 2个", "香叶 2片", "桂皮 1小段"],
+                        seasoning: ["冰糖 30g", "料酒 2汤匙", "生抽 2汤匙", "老抽 1汤匙", "盐 适量", "热水 适量"]
+                    },
+                    steps: [
+                        "五花肉洗净切成3cm见方的块，冷水下锅，加入1汤匙料酒和2片姜，大火煮开后撇去浮沫，捞出用温水冲洗干净，沥干备用。",
+                        "锅中不放油，直接放入五花肉块，中小火煸炒至表面微黄、油脂析出，盛出肉块，锅中留少许底油。",
+                        "放入冰糖，小火炒至冰糖融化呈琥珀色（糖色），迅速倒入五花肉翻炒，使每块肉均匀裹上糖色。",
+                        "加入葱段、姜片、八角、香叶、桂皮，翻炒出香味后，加入生抽、老抽和剩余料酒，翻炒均匀。",
+                        "倒入足量热水（没过肉块约2cm），大火烧开后转小火，盖上锅盖慢炖40分钟。",
+                        "开盖，根据口味加适量盐，转中火收汁，不停翻炒至汤汁浓稠、肉块红亮，即可出锅。"
+                    ]
+                },
+                {
+                    keyword: "for",
+                    definition: "Python 关键字，用于创建 for 循环，对序列（列表、元组、字符串）或可迭代对象进行遍历。",
+                    creativity: "for 循环一遍遍遍历序列中的每个元素——就像包饺子时，一张皮、一勺馅、一捏一挤，循环往复，直到所有饺子皮用完。每一次迭代，都是同样的动作，却包出了满满一盘幸福。",
+                    dishName: "韭菜鸡蛋饺子",
+                    ingredients: {
+                        main: ["饺子皮 500g", "韭菜 300g", "鸡蛋 4个"],
+                        auxiliary: ["虾皮 30g", "生姜 1小块"],
+                        seasoning: ["食用油 3汤匙", "盐 1.5茶匙", "香油 1汤匙", "白胡椒粉 少许"]
+                    },
+                    steps: [
+                        "鸡蛋打散，锅中热2汤匙油，倒入蛋液炒成细碎的金黄蛋花，盛出放凉。",
+                        "韭菜摘洗干净，充分沥干水分后切碎；生姜切末；虾皮洗净沥干。",
+                        "将韭菜碎、鸡蛋碎、虾皮、姜末混合，加入盐、香油、白胡椒粉，再淋入1汤匙熟油拌匀（锁住韭菜水分），饺子馅即成。",
+                        "取一张饺子皮，放入适量馅料（约1汤匙），对折捏紧中间，再从两端向中间捏出褶皱，封口捏紧。",
+                        "重复步骤4，直到所有饺子皮和馅料用完（for循环完成！）。",
+                        "大锅烧水，水开后下入饺子，用勺背轻推防粘，水再次沸腾后加半碗冷水，重复3次，饺子全部浮起即熟。",
+                        "捞出装盘，配蒜泥醋汁或辣椒油享用。"
+                    ]
+                }
+            ],
+            java: [
+                {
+                    keyword: "class",
+                    definition: "Java 关键字，用于定义类——面向对象编程的基本单元，封装属性（字段）和行为（方法）。",
+                    creativity: "class 是 Java 中定义类的关键字——一个类就是一个模板，从中可以实例化出无数对象。麻婆豆腐就是那道"class"：豆腐、肉末、豆瓣酱是属性，炒、烧、勾芡是方法，每一盘麻婆豆腐都是这个类的实例，麻、辣、鲜、香，属性一致，味道统一。",
+                    dishName: "麻婆豆腐",
+                    ingredients: {
+                        main: ["嫩豆腐 400g", "猪肉末 100g"],
+                        auxiliary: ["蒜苗 2根", "生姜 3片", "大蒜 3瓣", "干辣椒 5个"],
+                        seasoning: ["郫县豆瓣酱 2汤匙", "豆豉 1茶匙", "花椒粉 1茶匙", "生抽 1汤匙", "料酒 1汤匙", "水淀粉 适量", "食用油 3汤匙", "盐 少许"]
+                    },
+                    steps: [
+                        "豆腐切成2cm见方的小块，放入加了少许盐的沸水中焯烫1分钟（去豆腥且不易碎），捞出沥干。",
+                        "蒜苗切段，姜蒜切末，干辣椒剪成段，豆豉略剁碎。",
+                        "热锅凉油，放入肉末中火煸炒至变色、吐油，加入豆瓣酱炒出红油，再加入姜蒜末、豆豉、干辣椒段炒香。",
+                        "烹入料酒和生抽，加入约300ml热水，轻轻放入豆腐块，大火烧开后转中小火煮5分钟入味。",
+                        "分2-3次淋入水淀粉勾芡，轻轻推动锅铲使芡汁均匀包裹豆腐，汤汁收到浓稠状态。",
+                        "撒入蒜苗段和一半花椒粉，轻推两下关火装盘，表面再撒剩余花椒粉即可。"
+                    ]
+                },
+                {
+                    keyword: "public static void main",
+                    definition: "Java 程序的入口方法——public（公共访问）、static（静态）、void（无返回值）、main（主方法），JVM 从这里开始执行程序。",
+                    creativity: "main 方法是 Java 程序的起点——一切逻辑从这里开始。宫保鸡丁就是那道"main"：鸡丁、花生、干辣椒是参数，爆炒是核心逻辑，一盘宫保鸡丁端上桌，程序执行完毕，返回值是——"真香"。",
+                    dishName: "宫保鸡丁",
+                    ingredients: {
+                        main: ["鸡胸肉 300g", "油炸花生米 80g"],
+                        auxiliary: ["干辣椒 10个", "花椒 1茶匙", "大葱 1根", "生姜 3片", "大蒜 3瓣"],
+                        seasoning: ["生抽 2汤匙", "陈醋 2汤匙", "白糖 2茶匙", "料酒 1汤匙", "淀粉 1茶匙", "盐 少许", "食用油 适量"]
+                    },
+                    steps: [
+                        "鸡胸肉切成1.5cm见方的丁，加入1汤匙生抽、1茶匙料酒、少许盐和淀粉，抓匀腌制10分钟。",
+                        "大葱切段（约1cm），干辣椒剪段去籽，姜蒜切片。",
+                        "调宫保汁：碗中放入1汤匙生抽、2汤匙陈醋、2茶匙白糖、少许盐，搅拌均匀备用。",
+                        "热锅倒入稍多油，油温五成热时放入鸡丁滑炒至变色，盛出沥油。",
+                        "锅中留底油，放入花椒小火炸出香味，加入干辣椒段炒至棕红色，放入葱姜蒜爆香。",
+                        "倒入鸡丁翻炒均匀，淋入宫保汁大火快速翻炒，使酱汁均匀包裹鸡丁。",
+                        "关火前加入花生米，快速翻炒两下出锅（花生米最后放才能保持酥脆）。"
+                    ]
+                },
+                {
+                    keyword: "new",
+                    definition: "Java 关键字，用于创建类的新实例（对象），在堆内存中分配空间并调用构造方法初始化。",
+                    creativity: "new 关键字用来创建新对象——new ArrayList()、new HashMap()，每一次 new 都是一次新生。春卷就像 new 出来的对象：一张春卷皮 new 一个，包入馅料，封口，下锅油炸，new 出一盘金黄酥脆。new 出来的春卷，个个都是独立实例，但味道一模一样。",
+                    dishName: "炸春卷",
+                    ingredients: {
+                        main: ["春卷皮 20张", "猪肉末 150g", "卷心菜 200g", "胡萝卜 1根", "粉丝 50g"],
+                        auxiliary: ["生姜 2片", "小葱 2根"],
+                        seasoning: ["生抽 2汤匙", "料酒 1汤匙", "盐 1茶匙", "白胡椒粉 少许", "香油 1茶匙", "食用油 适量（炸制用）", "面粉 2汤匙（封口用）"]
+                    },
+                    steps: [
+                        "粉丝用温水泡软后切段；卷心菜、胡萝卜切细丝；姜切末，葱切花。",
+                        "热锅放少许油，放入肉末煸炒至变色，加入姜末炒香，烹入料酒和生抽。",
+                        "加入卷心菜丝和胡萝卜丝，中火翻炒至蔬菜变软，加入粉丝段，调入盐、白胡椒粉、香油，翻炒均匀后盛出放凉（馅料必须凉透才好包）。",
+                        "取一张春卷皮，放入适量馅料（约2汤匙）成长条状，将底部向上折，两侧向内折，然后向前卷起，在末端抹少许面粉糊封口。",
+                        "重复步骤4，包好所有春卷。",
+                        "锅中倒入足量油，烧至六成热（筷子放入冒小泡），放入春卷中小火炸至表面金黄酥脆（约3-4分钟），捞出沥油即可。"
+                    ]
+                }
+            ],
+            cpp: [
+                {
+                    keyword: "template",
+                    definition: "C++ 关键字，用于定义模板——允许函数或类使用泛型，编译时为具体类型生成特化版本。",
+                    creativity: "template 是 C++ 泛型编程的核心——一个模板，适配任意类型。饺子皮就是那张 template<T>：今天包韭菜馅是 template<韭菜>，明天包白菜馅是 template<白菜>，同一张皮，适配万般馅料，编译（包）出来都是好饺子。",
+                    dishName: "白菜猪肉水饺",
+                    ingredients: {
+                        main: ["饺子皮 500g", "猪肉末 300g", "大白菜 400g"],
+                        auxiliary: ["生姜 1小块", "大葱 1根", "鸡蛋 1个"],
+                        seasoning: ["生抽 3汤匙", "料酒 2汤匙", "盐 1.5茶匙", "香油 2汤匙", "白胡椒粉 1茶匙", "食用油 2汤匙"]
+                    },
+                    steps: [
+                        "白菜切碎，加1茶匙盐拌匀腌10分钟，用纱布包好挤干水分（挤出的白菜汁留着拌馅）。",
+                        "猪肉末放入大碗中，分3次加入白菜汁，每次都用筷子朝一个方向搅拌至吸收，使肉馅多汁。",
+                        "加入挤干的白菜碎、姜末、葱花、鸡蛋、生抽、料酒、盐、白胡椒粉、香油，朝同一方向搅拌均匀。最后淋入2汤匙熟油拌匀锁水。",
+                        "取饺子皮，放馅、对折、捏紧，包成饺子（template<白菜猪肉> 实例化中……）。",
+                        "大锅烧水，水开后下饺子，煮沸后加冷水，重复3次，饺子浮起即熟。",
+                        "捞出装盘，配醋、蒜泥、辣椒油蘸食。"
+                    ]
+                },
+                {
+                    keyword: "while",
+                    definition: "C++ 关键字，创建 while 循环——当条件为 true 时重复执行循环体，直到条件变为 false。",
+                    creativity: "while 循环在条件为真时不断执行——while(锅里有肉) { 翻炒(); }。炖肉就是最典型的 while 循环：while(肉不够烂) { 继续炖(); 加热水(); }，循环的终止条件是"筷子能轻松插入"。while 炖出来的肉，入口即化。",
+                    dishName: "土豆炖牛肉",
+                    ingredients: {
+                        main: ["牛腩 500g", "土豆 3个（约400g）"],
+                        auxiliary: ["生姜 4片", "大葱 1段", "八角 2个", "桂皮 1小段", "香叶 2片", "干辣椒 3个"],
+                        seasoning: ["冰糖 15g", "料酒 2汤匙", "生抽 3汤匙", "老抽 1汤匙", "盐 适量", "热水 适量"]
+                    },
+                    steps: [
+                        "牛腩切成3cm块，冷水下锅，加1汤匙料酒和2片姜，煮开撇沫后捞出，用温水洗净沥干。",
+                        "土豆去皮切滚刀块，用清水泡着防氧化。",
+                        "锅中放少许油，放入冰糖小火炒成琥珀色糖色，倒入牛肉块翻炒上色。",
+                        "加入葱姜、八角、桂皮、香叶、干辣椒炒香，烹入剩余料酒、生抽、老抽，翻炒均匀。",
+                        "倒入足量热水（没过牛肉3cm），大火烧开转小火，盖盖炖40分钟（while 循环第一阶段）。",
+                        "加入土豆块，继续炖20分钟（while 循环第二阶段），至土豆软糯、牛肉酥烂。",
+                        "根据口味加盐调味，开大火略收汁（留些汤汁拌饭更香），即可出锅。"
+                    ]
+                },
+                {
+                    keyword: "return",
+                    definition: "C++ 关键字，从函数返回一个值给调用者，同时结束当前函数的执行。",
+                    creativity: "return 是函数的终点——经过一系列计算和处理，最终 return 一个结果。一道菜的 return 就是装盘上桌的那一刻：return 一盘色香味俱全的佳肴，返回值类型是"满足感"。",
+                    dishName: "回锅肉",
+                    ingredients: {
+                        main: ["带皮五花肉 400g"],
+                        auxiliary: ["青蒜苗 4根", "青椒 1个", "生姜 3片", "大蒜 3瓣"],
+                        seasoning: ["郫县豆瓣酱 2汤匙", "豆豉 1茶匙", "甜面酱 1茶匙", "生抽 1汤匙", "料酒 1汤匙", "白糖 1茶匙", "食用油 少许"]
+                    },
+                    steps: [
+                        "五花肉整块冷水下锅，加入2片姜、1汤匙料酒，大火煮开后转中火煮20分钟，至筷子能插入（约八成熟），捞出放凉后切成约3mm厚的薄片。",
+                        "青蒜苗切段（蒜白和蒜叶分开），青椒切块，蒜切片，豆豉略剁。",
+                        "锅中放少许油（肉会出油，油要少），放入肉片中火煸炒至肉片微卷、透明出油，盛出肉片，锅中留底油。",
+                        "放入豆瓣酱小火炒出红油，加入豆豉、蒜片、甜面酱炒香。",
+                        "倒入肉片翻炒均匀，加入生抽、白糖调味。",
+                        "先放入蒜白和青椒翻炒30秒，再放入蒜叶翻炒至断生，即可出锅装盘。"
+                    ]
+                }
+            ],
+            javascript: [
+                {
+                    keyword: "function",
+                    definition: "JavaScript 关键字，用于声明函数——将一段可执行的代码封装为命名块，可接收参数并返回值。",
+                    creativity: "function 是 JavaScript 中声明函数的基本方式——function makeSandwich(ingredients) { ... }。三明治就是最典型的 function：传入面包、火腿、生菜、番茄，经过"组装"逻辑，return 一个美味的三明治。参数不同，口味不同，但函数签名不变。",
+                    dishName: "经典火腿三明治",
+                    ingredients: {
+                        main: ["吐司面包 4片", "火腿片 6片", "生菜叶 4片", "番茄 1个"],
+                        auxiliary: ["鸡蛋 2个", "黄瓜 半根"],
+                        seasoning: ["沙拉酱 3汤匙", "黄油 20g", "盐 少许", "黑胡椒粉 少许"]
+                    },
+                    steps: [
+                        "番茄切薄片，黄瓜切薄片，生菜洗净沥干。",
+                        "平底锅小火融化少许黄油，打入鸡蛋煎成太阳蛋（也可炒散成炒蛋），撒少许盐和黑胡椒。",
+                        "吐司放入多士炉或平底锅（不放油）烤至表面微黄酥脆。",
+                        "取一片吐司，均匀涂抹沙拉酱，依次铺上生菜叶、2片火腿、番茄片、煎蛋、黄瓜片。",
+                        "盖上第二片吐司（涂酱面朝下），轻轻按压。",
+                        "用刀沿对角线切开，装盘享用（function makeSandwich() 执行完毕，return "美味"）。"
+                    ]
+                },
+                {
+                    keyword: "const",
+                    definition: "JavaScript 关键字，声明一个块级作用域的常量——绑定后不可重新赋值（但对象/数组的内容可变）。",
+                    creativity: "const 声明一个不可重新赋值的常量——const 配方 = "扬州炒饭"。扬州炒饭就像 const：一旦定义了它的配方（米饭、鸡蛋、火腿、虾仁、青豆），这个常量就不可更改。你可以往里面加料（对象属性可变），但你不能说"扬州炒饭"其实是粥（常量不可重新绑定）。",
+                    dishName: "扬州炒饭",
+                    ingredients: {
+                        main: ["隔夜米饭 300g", "鸡蛋 3个", "虾仁 80g", "火腿 80g"],
+                        auxiliary: ["青豆 50g", "胡萝卜 半根", "小葱 3根"],
+                        seasoning: ["食用油 3汤匙", "盐 1.5茶匙", "白胡椒粉 少许", "生抽 1茶匙"]
+                    },
+                    steps: [
+                        "虾仁用少许盐和料酒腌制5分钟；火腿切小丁；胡萝卜切小丁；葱切葱花。",
+                        "青豆和胡萝卜丁放入沸水中焯烫1分钟，捞出沥干。",
+                        "鸡蛋打散，热锅热油炒成细碎蛋花，盛出备用。",
+                        "锅中再加少许油，放入虾仁滑炒至变色盛出。",
+                        "锅中倒入米饭，用锅铲压散，中火翻炒至米粒分明、粒粒跳动。",
+                        "加入火腿丁、青豆、胡萝卜丁、鸡蛋碎、虾仁，翻炒均匀。",
+                        "加入盐、白胡椒粉、生抽，翻炒入味，最后撒入葱花翻炒两下出锅。"
+                    ]
+                },
+                {
+                    keyword: "async/await",
+                    definition: "JavaScript 关键字，async 声明异步函数，await 暂停执行等待 Promise 完成——让异步代码写起来像同步一样直观。",
+                    creativity: "async/await 让异步操作变得像同步代码一样易读——先 await 水烧开，再 await 面煮熟，同时 async 地准备调料。煮泡面就是最天然的 async/await：await 水开() 的时候，你可以 async 地切葱花、打鸡蛋，等水开了再 await 下面饼()，异步并行，效率翻倍。",
+                    dishName: "豪华版泡面",
+                    ingredients: {
+                        main: ["方便面 1包", "鸡蛋 2个"],
+                        auxiliary: ["午餐肉 4片", "青菜 2颗", "小葱 2根", "大蒜 2瓣"],
+                        seasoning: ["泡面调料包 1套", "香油 1茶匙", "老干妈 1汤匙（可选）"]
+                    },
+                    steps: [
+                        "async function 准备工作() —— 青菜洗净，葱切葱花，蒜切末，午餐肉切片。",
+                        "await 煎蛋()：热锅放少许油，打入2个鸡蛋，煎至喜欢的熟度（溏心或全熟），盛出备用。",
+                        "await 煎午餐肉()：用锅中余油将午餐肉两面煎至金黄，盛出。",
+                        "await 烧水()：锅中加水烧开（约500ml）。",
+                        "await 下面饼()：水开后放入面饼和调料包，煮2分钟。",
+                        "await 加配菜()：加入青菜煮30秒至断生。",
+                        "装碗：将面条和汤倒入大碗，码上煎蛋、午餐肉，撒葱花、蒜末，淋香油，加一勺老干妈（可选）。",
+                        "return "豪华泡面" —— 异步任务全部完成，开吃！"
+                    ]
+                }
+            ]
+        };
+
+        // ==================== 渲染菜谱卡片 ====================
+        function renderCards(lang) {
+            const section = document.getElementById(`section-${lang}`);
+            const grid = section.querySelector('.recipe-grid');
+            grid.innerHTML = '';
+
+            recipes[lang].forEach((recipe, index) => {
+                const borderColor = lang === 'python' ? 'python' : lang === 'java' ? 'java' : lang === 'cpp' ? 'cpp' : 'js';
+
+                const card = document.createElement('div');
+                card.className = `recipe-card card-bg rounded-2xl p-6 cursor-pointer`;
+
+                card.innerHTML = `
+                    <div class="keyword-highlight ${borderColor}-border pl-4 pr-3 py-2 rounded-r-lg mb-4">
+                        <code class="code-font text-lg font-semibold text-yellow-300">${escapeHtml(recipe.keyword)}</code>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold mb-2">📖 关键字释义</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">${escapeHtml(recipe.definition)}</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold mb-2">💡 取名创意</h3>
+                        <p class="text-gray-300 text-sm leading-relaxed">${escapeHtml(recipe.creativity)}</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold mb-2">🍽️ 原始菜品</h3>
+                        <p class="text-2xl font-bold text-yellow-400">${escapeHtml(recipe.dishName)}</p>
+                    </div>
+
+                    <div class="mb-4">
+                        <h3 class="text-xl font-bold mb-3">🥬 原料明细</h3>
+                        <div class="space-y-3">
+                            <div class="card-bg-light rounded-lg p-3">
+                                <p class="text-sm font-semibold text-green-400 mb-2">主料</p>
+                                <div class="flex flex-wrap gap-2">
+                                    ${recipe.ingredients.main.map(i => `<span class="ingredient-tag px-3 py-1 bg-green-900/40 text-green-200 rounded-full text-xs">${escapeHtml(i)}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div class="card-bg-light rounded-lg p-3">
+                                <p class="text-sm font-semibold text-blue-400 mb-2">辅料</p>
+                                <div class="flex flex-wrap gap-2">
+                                    ${recipe.ingredients.auxiliary.map(i => `<span class="ingredient-tag px-3 py-1 bg-blue-900/40 text-blue-200 rounded-full text-xs">${escapeHtml(i)}</span>`).join('')}
+                                </div>
+                            </div>
+                            <div class="card-bg-light rounded-lg p-3">
+                                <p class="text-sm font-semibold text-orange-400 mb-2">调料</p>
+                                <div class="flex flex-wrap gap-2">
+                                    ${recipe.ingredients.seasoning.map(i => `<span class="ingredient-tag px-3 py-1 bg-orange-900/40 text-orange-200 rounded-full text-xs">${escapeHtml(i)}</span>`).join('')}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mb-4">
+                        <div class="flex justify-between items-center mb-3">
+                            <h3 class="text-xl font-bold">👨‍🍳 烹饪步骤</h3>
+                            <button onclick="copyRecipe(event, '${escapeHtml(recipe.dishName)}')"
+                                class="copy-btn px-3 py-1 bg-gray-700 hover:bg-gray-600 rounded-lg text-xs text-gray-300 flex items-center gap-1">
+                                📋 复制
+                            </button>
+                        </div>
+                        <div class="space-y-3">
+                            ${recipe.steps.map((step, i) => {
+                                const colors = lang === 'python' ? 'bg-[#3776ab]' : lang === 'java' ? 'bg-[#f89820]' : lang === 'cpp' ? 'bg-[#00599C]' : 'bg-[#f7df1e] text-black';
+                                return `<div class="flex gap-3">
+                                    <span class="step-number ${colors} flex-shrink-0">${i + 1}</span>
+                                    <p class="text-gray-300 text-sm leading-relaxed pt-1">${escapeHtml(step)}</p>
+                                </div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+        }
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
+        }
+
+        // ==================== 标签切换 ====================
+        function switchTab(lang) {
+            // 更新标签状态
+            document.querySelectorAll('[id^="tab-"]').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.getElementById(`tab-${lang}`).classList.add('active');
+
+            // 更新内容区
+            document.querySelectorAll('[id^="section-"]').forEach(section => {
+                section.classList.add('hidden');
+            });
+            const targetSection = document.getElementById(`section-${lang}`);
+            targetSection.classList.remove('hidden');
+
+            // 如果该语言还没渲染，先渲染
+            if (targetSection.querySelector('.recipe-grid').children.length === 0) {
+                renderCards(lang);
+            }
+
+            // 滚动到内容区
+            targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        // ==================== 复制菜谱 ====================
+        function copyRecipe(event, dishName) {
+            event.stopPropagation();
+            const btn = event.currentTarget;
+
+            // 找到当前卡片所属的语言和菜谱
+            const card = btn.closest('.recipe-card');
+            const keyword = card.querySelector('code').textContent;
+
+            // 找到对应的菜谱数据
+            let recipeData = null;
+            for (const lang in recipes) {
+                const found = recipes[lang].find(r => r.dishName === dishName && r.keyword === keyword);
+                if (found) {
+                    recipeData = found;
+                    break;
+                }
+            }
+
+            if (!recipeData) return;
+
+            // 组装复制文本
+            let text = `【${recipeData.keyword} · ${recipeData.dishName}】\n\n`;
+            text += `📖 关键字释义：${recipeData.definition}\n\n`;
+            text += `🥬 原料：\n`;
+            text += `  主料：${recipeData.ingredients.main.join('、')}\n`;
+            text += `  辅料：${recipeData.ingredients.auxiliary.join('、')}\n`;
+            text += `  调料：${recipeData.ingredients.seasoning.join('、')}\n\n`;
+            text += `👨‍🍳 做法：\n`;
+            recipeData.steps.forEach((step, i) => {
+                text += `  ${i + 1}. ${step}\n`;
+            });
+
+            navigator.clipboard.writeText(text).then(() => {
+                btn.innerHTML = '✅ 已复制';
+                setTimeout(() => {
+                    btn.innerHTML = '📋 复制';
+                }, 2000);
+            }).catch(() => {
+                // 降级方案
+                const textarea = document.createElement('textarea');
+                textarea.value = text;
+                document.body.appendChild(textarea);
+                textarea.select();
+                document.execCommand('copy');
+                document.body.removeChild(textarea);
+                btn.innerHTML = '✅ 已复制';
+                setTimeout(() => {
+                    btn.innerHTML = '📋 复制';
+                }, 2000);
+            });
+        }
+
+        // ==================== 初始化 ====================
+        document.addEventListener('DOMContentLoaded', () => {
+            // 渲染默认的 Python 标签页
+            renderCards('python');
+        });
+    </script>
+</body>
+</html>
