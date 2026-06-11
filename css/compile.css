@@ -1,0 +1,266 @@
+/* ==================== "编译成菜" 终端动画 ==================== */
+.compile-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    backdrop-filter: blur(8px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.compile-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.compile-terminal {
+    background: #0d1117;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    width: 90%;
+    max-width: 560px;
+    overflow: hidden;
+    box-shadow: 0 30px 80px rgba(0, 0, 0, 0.7);
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.compile-overlay.active .compile-terminal {
+    transform: scale(1);
+}
+
+.compile-header {
+    background: rgba(255, 255, 255, 0.03);
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.compile-dots {
+    display: flex;
+    gap: 6px;
+}
+
+.compile-dots span {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+}
+
+.compile-dots span:nth-child(1) { background: #ff5f56; }
+.compile-dots span:nth-child(2) { background: #ffbd2e; }
+.compile-dots span:nth-child(3) { background: #27c93f; }
+
+.compile-title {
+    font-size: 13px;
+    color: #888;
+    font-family: 'Fira Code', monospace;
+}
+
+.compile-body {
+    padding: 20px;
+    min-height: 200px;
+    max-height: 60vh;
+    overflow-y: auto;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+    line-height: 1.8;
+}
+
+.compile-line {
+    color: #c9d1d9;
+    white-space: pre-wrap;
+    word-break: break-all;
+    opacity: 0;
+    animation: compileLineIn 0.2s ease forwards;
+}
+
+@keyframes compileLineIn {
+    from { opacity: 0; transform: translateX(-10px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+.compile-prompt {
+    color: #58a6ff;
+}
+
+.compile-info {
+    color: #8b949e;
+}
+
+.compile-success {
+    color: #3fb950;
+    font-weight: 600;
+}
+
+.compile-error {
+    color: #f85149;
+}
+
+/* 滚动条 */
+.compile-body::-webkit-scrollbar {
+    width: 6px;
+}
+
+.compile-body::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.compile-body::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+/* ==================== AI 生成弹窗 ==================== */
+.ai-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(10px);
+    z-index: 2500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.ai-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.ai-card {
+    background: #12121a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 24px;
+    width: 100%;
+    max-width: 480px;
+    max-height: 85vh;
+    overflow-y: auto;
+    transform: translateY(30px) scale(0.95);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 40px 80px rgba(0, 0, 0, 0.6);
+}
+
+.ai-overlay.active .ai-card {
+    transform: translateY(0) scale(1);
+}
+
+.ai-header {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: rgba(18, 18, 26, 0.95);
+    backdrop-filter: blur(12px);
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 24px 24px 0 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.ai-header h2 {
+    font-size: 18px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.ai-body {
+    padding: 20px 24px 28px;
+}
+
+.ai-gen-btn {
+    width: 100%;
+    padding: 14px;
+    border-radius: 16px;
+    border: none;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #fff;
+    box-shadow: 0 8px 30px rgba(102, 126, 234, 0.3);
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.ai-gen-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 12px 40px rgba(102, 126, 234, 0.5);
+}
+
+.ai-gen-btn:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+}
+
+.ai-result {
+    margin-top: 20px;
+    padding: 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-radius: 16px;
+}
+
+.ai-recipe-preview {
+    text-align: left;
+}
+
+.ai-ingredients {
+    padding: 10px;
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 10px;
+}
+
+.ai-actions {
+    margin-top: 16px;
+}
+
+/* 旋转动画 */
+@keyframes ri-spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.ri-spin {
+    animation: ri-spin 1s linear infinite;
+    display: inline-block;
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 640px) {
+    .compile-terminal {
+        width: 95%;
+    }
+
+    .compile-body {
+        font-size: 12px;
+        padding: 14px;
+    }
+
+    .ai-card {
+        width: 95%;
+        max-height: 90vh;
+    }
+}

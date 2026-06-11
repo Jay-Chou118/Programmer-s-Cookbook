@@ -1,0 +1,324 @@
+/* ==================== 危险操作弹窗 ==================== */
+.danger-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 3000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+}
+
+.danger-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.danger-card {
+    background: #12121a;
+    border: 2px solid #ef4444;
+    border-radius: 20px;
+    padding: 32px;
+    text-align: center;
+    max-width: 360px;
+    width: 90%;
+    transform: scale(0.9);
+    transition: transform 0.3s ease;
+    box-shadow: 0 0 60px rgba(239, 68, 68, 0.3);
+}
+
+.danger-overlay.active .danger-card {
+    transform: scale(1);
+}
+
+.danger-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.danger-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: #ef4444;
+    margin-bottom: 12px;
+}
+
+.danger-desc {
+    font-size: 14px;
+    color: #aaa;
+    margin-bottom: 8px;
+    line-height: 1.6;
+}
+
+.danger-desc code {
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-family: 'Fira Code', monospace;
+    font-size: 13px;
+}
+
+.danger-btns {
+    display: flex;
+    gap: 12px;
+    margin-top: 24px;
+}
+
+.danger-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: 12px;
+    border: none;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.danger-btn-cancel {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ccc;
+}
+
+.danger-btn-cancel:hover {
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.danger-btn-confirm {
+    background: #ef4444;
+    color: #fff;
+    box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+}
+
+.danger-btn-confirm:hover {
+    background: #dc2626;
+    transform: translateY(-1px);
+}
+
+/* ==================== 海报生成 ==================== */
+.poster-overlay {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 2500;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: 20px;
+}
+
+.poster-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.poster-modal {
+    background: #12121a;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    max-width: 400px;
+    width: 100%;
+    overflow: hidden;
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
+}
+
+.poster-overlay.active .poster-modal {
+    transform: scale(1);
+}
+
+.poster-modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.poster-modal-header h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #fff;
+}
+
+.poster-modal-body {
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.poster-img {
+    max-width: 100%;
+    border-radius: 12px;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.poster-modal-footer {
+    padding: 0 20px 20px;
+    text-align: center;
+}
+
+.poster-download-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 24px;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #667eea, #764ba2);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 600;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+}
+
+.poster-download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(102, 126, 234, 0.5);
+}
+
+/* 海报卡片样式（用于 html2canvas 渲染） */
+.poster-container {
+    position: fixed;
+    left: -9999px;
+    top: -9999px;
+}
+
+.poster-card {
+    width: 320px;
+    padding: 28px;
+    border-radius: 20px;
+    font-family: 'Noto Sans SC', sans-serif;
+}
+
+.poster-fallback {
+    position: static;
+    left: auto;
+    top: auto;
+}
+
+.poster-fallback .poster-card {
+    margin: 0 auto;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.poster-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.poster-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.poster-lang {
+    font-size: 12px;
+}
+
+.poster-keyword {
+    font-family: 'Fira Code', monospace;
+    font-size: 32px;
+    font-weight: 700;
+    text-align: center;
+    margin-bottom: 4px;
+}
+
+.poster-arrow {
+    text-align: center;
+    font-size: 20px;
+    color: #888;
+    margin-bottom: 4px;
+}
+
+.poster-dish {
+    font-size: 24px;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 16px;
+}
+
+.poster-meta {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 16px;
+    font-size: 12px;
+    color: #888;
+}
+
+.poster-quote {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #666;
+    text-align: center;
+    margin-bottom: 20px;
+    font-style: italic;
+}
+
+.poster-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(255, 255, 255, 0.1);
+    font-size: 11px;
+}
+
+.poster-qr {
+    font-size: 24px;
+}
+
+/* ==================== 分享按钮 ==================== */
+.share-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 6px 12px;
+    border-radius: 10px;
+    border: 1px solid rgba(102, 126, 234, 0.3);
+    background: rgba(102, 126, 234, 0.1);
+    color: #667eea;
+    font-size: 13px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.share-btn:hover {
+    background: rgba(102, 126, 234, 0.2);
+    transform: translateY(-1px);
+}
+
+/* ==================== 响应式 ==================== */
+@media (max-width: 640px) {
+    .danger-card {
+        padding: 24px;
+    }
+
+    .poster-modal {
+        max-width: 90vw;
+    }
+
+    .poster-card {
+        width: 280px;
+        padding: 20px;
+    }
+}

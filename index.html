@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Programmer's Cookbook - 程序员关键字菜谱</title>
+    <title>404食堂 | 代码能跑，菜也能做</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -69,12 +69,11 @@
     <link rel="stylesheet" href="css/detail.css">
     <link rel="stylesheet" href="css/welcome.css">
     <link rel="stylesheet" href="css/features.css">
+    <link rel="stylesheet" href="css/easter.css">
+    <link rel="stylesheet" href="css/compile.css">
+    <link rel="stylesheet" href="css/kling.css">
 </head>
 <body>
-    <!-- 自定义光标 -->
-    <div class="custom-cursor" id="cursor"></div>
-    <div class="custom-cursor-dot" id="cursor-dot"></div>
-
     <!-- 背景粒子 -->
     <div id="particles-js"></div>
 
@@ -84,15 +83,15 @@
     <!-- 页面头部 -->
     <header class="relative z-10 py-6 px-6">
         <div class="max-w-7xl mx-auto text-center">
-            <h1 class="text-4xl md:text-6xl font-bold mb-2 font-code">
+            <h1 class="text-4xl md:text-6xl font-bold mb-2 font-code" id="siteTitle">
                 <span class="bg-gradient-to-r from-blue-400 via-purple-400 to-pink-400 bg-clip-text text-transparent">
-                    &lt;Programmer's Cookbook/&gt;
+                    &lt;404食堂/&gt;
                 </span>
             </h1>
 
             <p class="text-base md:text-lg text-gray-400 mb-4 max-w-2xl mx-auto">
-                当编程语言的关键字遇上人间烟火气
-                <span class="text-xs text-gray-500 ml-2">每一行代码，都值得被用心烹饪</span>
+                代码能跑，菜也能做
+                <span class="text-xs text-gray-500 ml-2">404 Not Found → 404食堂 Found</span>
             </p>
 
             <!-- 语言分类标签（放在 header 内，确保首屏可见） -->
@@ -280,7 +279,7 @@
                 </div>
 
                 <div class="text-gray-600 text-sm font-code">
-                    © 2024 Programmer's Cookbook
+                    © 2024 404食堂 | 代码能跑，菜也能做
                 </div>
             </div>
         </div>
@@ -422,10 +421,15 @@
         </div>
     </div>
 
-    <!-- 浮动投稿按钮 -->
-    <button class="fab-submit" onclick="openSubmitModal()" title="投稿菜谱">
-        <i class="ri-quill-pen-line"></i>
-    </button>
+    <!-- 浮动按钮组 -->
+    <div class="fab-group">
+        <button class="fab-btn fab-ai" onclick="openAIGenModal()" title="AI 生成菜谱">
+            <i class="ri-robot-2-line"></i>
+        </button>
+        <button class="fab-btn fab-submit" onclick="openSubmitModal()" title="投稿菜谱">
+            <i class="ri-quill-pen-line"></i>
+        </button>
+    </div>
 
     <!-- 菜谱详情模态框 -->
     <div id="recipeModal" class="modal-overlay">
@@ -452,13 +456,20 @@
         </div>
     </div>
 
+    <!-- 可灵 API 配置（本地密钥，不提交到 GitHub） -->
+    <script src="js/config.js?v=12"></script>
+
     <!-- 业务脚本：按依赖顺序加载 -->
-    <script src="js/data.js?v=9"></script>
-    <script src="js/effects.js?v=9"></script>
-    <script src="js/ui.js?v=9"></script>
-    <script src="js/detail.js?v=9"></script>
-    <script src="js/welcome.js?v=9"></script>
-    <script src="js/features.js?v=9"></script>
-    <script src="js/main.js?v=9"></script>
+    <script src="js/data.js?v=12"></script>
+    <script src="js/effects.js?v=12"></script>
+    <script src="js/ui.js?v=12"></script>
+    <script src="js/detail.js?v=12"></script>
+    <script src="js/welcome.js?v=12"></script>
+    <script src="js/features.js?v=12"></script>
+    <script src="js/easter.js?v=12"></script>
+    <script src="js/compile.js?v=12"></script>
+    <script src="js/aigen.js?v=12"></script>
+    <script src="js/kling.js?v=12"></script>
+    <script src="js/main.js?v=12"></script>
 </body>
 </html>

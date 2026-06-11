@@ -1,12 +1,6 @@
 // ==================== 全局状态（与 ui.js / main.js 共享） ====================
 let isLightMode = false;
 
-// ==================== 自定义光标（已禁用，统一使用系统光标） ====================
-const cursor = document.getElementById('cursor');
-const cursorDot = document.getElementById('cursor-dot');
-if (cursor) cursor.style.display = 'none';
-if (cursorDot) cursorDot.style.display = 'none';
-
 // ==================== 粒子背景 ====================
 if (typeof particlesJS !== 'undefined') {
     particlesJS('particles-js', {

@@ -103,9 +103,13 @@ function renderCards(lang) {
                         <span>${getLikeCount(lang, recipe._index, isCommunity ? 'community' : 'official')}</span>
                     </button>
                 </div>
+                <button class="share-btn"
+                    onclick="event.stopPropagation(); generatePoster('${lang}', ${recipe._index}, '${isCommunity ? 'community' : 'official'}')">
+                    <i class="ri-share-line"></i> 分享
+                </button>
             </div>
 
-            <button onclick="event.stopPropagation(); ${isCommunity ? `openCommunityDetail(${recipe._index})` : `openRecipeDetail('${lang}', ${recipe._index})`}"
+            <button onclick="event.stopPropagation(); ${isCommunity ? `startCompileThenOpen('${lang}', ${recipe._index}, 'community')` : `startCompileThenOpen('${lang}', ${recipe._index}, 'official')`}"
                 class="w-full py-3 rounded-2xl font-bold text-sm text-white bg-gradient-to-r ${colors.bg} shadow-lg hover:shadow-xl hover:scale-[1.02] transition-all flex items-center justify-center gap-2">
                 <i class="ri-play-circle-line"></i>
                 开始制作
