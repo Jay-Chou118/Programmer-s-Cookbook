@@ -314,7 +314,79 @@
     to { opacity: 1; transform: scale(1); }
 }
 
-/* ==================== 响应式 ==================== */
+/* ==================== 伪代码区域 ==================== */
+.pseudo-code-section {
+    margin-top: 24px;
+    border-radius: 16px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.pseudo-code-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 16px;
+    background: rgba(255, 255, 255, 0.03);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    font-size: 14px;
+    font-weight: 600;
+    color: #e2e8f0;
+}
+
+.pseudo-code-header i {
+    font-size: 16px;
+}
+
+.pseudo-code-header span {
+    flex: 1;
+}
+
+.pseudo-copy-btn {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.06);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    color: #aaa;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.pseudo-copy-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+.pseudo-copy-btn.copied {
+    color: #3fb950;
+    background: rgba(63, 185, 80, 0.1);
+}
+
+.pseudo-code-block {
+    padding: 16px;
+    margin: 0;
+    background: #0d1117;
+    font-family: 'Fira Code', monospace;
+    font-size: 12px;
+    line-height: 1.8;
+    color: #c9d1d9;
+    overflow-x: auto;
+    white-space: pre;
+}
+
+.pseudo-code-block code {
+    font-family: inherit;
+    background: none;
+    padding: 0;
+    color: inherit;
+}
+
+/* ==================== 详情页响应式 ==================== */
 @media (max-width: 640px) {
     .modal-content {
         width: 95%;

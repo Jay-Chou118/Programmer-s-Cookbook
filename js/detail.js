@@ -122,6 +122,9 @@ function openRecipeDetail(lang, recipeIndex) {
             <p class="text-lg font-bold text-green-400 mb-1">大功告成！</p>
             <p class="text-sm text-gray-400">${escapeHtml(recipe.dishName)} 制作完成，享受美食吧！</p>
         </div>
+
+        <!-- 伪代码 — 运行这道菜 -->
+        ${generatePseudoCodeHTML(lang, recipe)}
     `;
 
     // 设置头部信息
